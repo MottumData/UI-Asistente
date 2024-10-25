@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## Ejecución en local :computer:
 
-First, run the development server:
+### Prerrequisitos
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Asegúrate de tener instalados previamente los siguientes componentes:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Node.js](https://nodejs.org/en/download/package-manager/current) v.22
+- [Docker](https://www.docker.com/products/docker-desktop/)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+A continuación, se muestra el despliegue tanto en local como en un contenedor Docker
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Despliegue en local :house:
 
-## Learn More
+1. **Clonar el repositorio**
+   
+   Primero, clona el repositorio y situate en el directorio clonado:
+   ```bash
+   git clone https://github.com/MottumData/UI-Asistente.git
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Instalación de dependencias**
+    ```bash
+        npm install
+    ```
+3. **Ejecutar UI en local (develop)**
+    ```bash
+    npm run dev
+    ```
+4. **Ejecutar UI en local (production)**
+    ```bash
+    npm run start
+    ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Despliegue con Docker :whale:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Clonar el repositorio**
+   
+   Primero, clona el repositorio y situate en el directorio clonado:
+   ```bash
+   git clone https://github.com/MottumData/UI-Asistente.git
+   ```
+2. **Crear imagen de Docker**
+    ```bash
+        docker build -t ui-codexca .
+    ```
+3. **Ejecutar contenedor Docker**
+    
+    ```bash
+    docker run -p 3000:3000 ui-codexca
+    ```
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+... *Work in Progress*:gear:...
+<!-- Incluir: test, pull del registry, despliegue con api -->
