@@ -70,28 +70,46 @@ const ChatInterface: React.FC = () => {
       const newMessages: Message[] = [...messages, { text: input, sender: 'user' }];
       setMessages(newMessages);
       setInput('');
-
-      // Simulate bot response
-      setTimeout(() => {
-        const updatedMessages: Message[] = [...newMessages, { text: 'Esta es una respuesta generada automáticamente.', sender: 'bot' as 'bot' }];
-        setMessages(updatedMessages);
-        
-        // Save or update the conversation
-        if (currentConversationId === null) {
-          const newConversation: Conversation = {
-            id: uuidv4(),
-            name: `Conversación ${conversations.length + 1}`,
-            messages: updatedMessages,
-          };
-          setConversations([...conversations, newConversation]);
-          setCurrentConversationId(newConversation.id);
-        } else {
-          const updatedConversations = conversations.map(conv =>
-            conv.id === currentConversationId ? { ...conv, messages: updatedMessages } : conv
-          );
-          setConversations(updatedConversations);
-        }
-      }, 1000);
+  
+      // Crear la estructura del mensaje
+      const messagePayload = {
+        conversation_id: currentConversationId,
+        prompt: input,
+      };
+  
+      // Realizar la llamada POST a la API
+      fetch('http://localhost:8000/chat/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(messagePayload),
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Manejar la respuesta de la API
+          const updatedMessages: Message[] = [...newMessages, { text: data.response, sender: 'bot' as 'bot' }];
+          setMessages(updatedMessages);
+  
+          // Guardar o actualizar la conversación
+          if (currentConversationId === null) {
+            const newConversation: Conversation = {
+              id: uuidv4(),
+              name: `Conversación ${conversations.length + 1}`,
+              messages: updatedMessages,
+            };
+            setConversations([...conversations, newConversation]);
+            setCurrentConversationId(newConversation.id);
+          } else {
+            const updatedConversations = conversations.map(conv =>
+              conv.id === currentConversationId ? { ...conv, messages: updatedMessages } : conv
+            );
+            setConversations(updatedConversations);
+          }
+        })
+        .catch(error => {
+          console.error('Error al enviar el mensaje:', error);
+        });
     }
   };
 
