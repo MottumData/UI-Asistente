@@ -5,7 +5,7 @@
 
 Asegúrate de tener instalados previamente los siguientes componentes:
 
-- [Node.js](https://nodejs.org/en/download/package-manager/current) v.22
+- [Node.js](https://nodejs.org/en/download/prebuilt-installer/) v.22
 - [Docker](https://www.docker.com/products/docker-desktop/)
 
 A continuación, se muestra el despliegue tanto en local como en un contenedor Docker
@@ -21,7 +21,7 @@ A continuación, se muestra el despliegue tanto en local como en un contenedor D
 
 2. **Instalación de dependencias**
     ```bash
-        npm install
+    npm install
     ```
 3. **Ejecutar UI en local (develop)**
     ```bash
