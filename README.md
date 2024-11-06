@@ -42,7 +42,7 @@ A continuación, se muestra el despliegue tanto en local como en un contenedor D
    ```
 2. **Crear imagen de Docker**
     ```bash
-        docker build -t ui-codexca .
+    docker build -t ui-codexca .
     ```
 3. **Ejecutar contenedor Docker**
     
