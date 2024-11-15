@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from './sideBar'; // Import Sidebar
 import { Button } from './button';
 import { Input } from './input';
-import { Send, User, Monitor, ArrowLeft, ArrowRight, Paperclip, File, Settings} from 'lucide-react'; 
+import { Send, User, Monitor, ArrowLeft, ArrowRight, Paperclip, File, Settings } from 'lucide-react'; 
 import { v4 as uuidv4 } from 'uuid';
 import { Card, CardContent } from './card';
 import { Tooltip } from 'react-tooltip';
+import ReactMarkdown from 'react-markdown';
 
 interface Message {
   text: string;
@@ -23,6 +24,12 @@ interface Conversation {
   messages: Message[];
   uploadedFiles?: { fileName: string; fileUrl: string }[];
 }
+
+const defaultConversation: Conversation = {
+  id: uuidv4(),
+  name: `Conversación 1`,
+  messages: [],
+};
 
 const steps = [
   { title: 'Seleccionar archivo', content: 'Haz clic en "Seleccionar archivo" para elegir el documento que deseas subir.' },
@@ -52,9 +59,11 @@ const ChatInterface: React.FC = () => {
   const [input, setInput] = useState('');
   const [activeTab, setActiveTab] = useState('chat');
   const [step, setStep] = useState(0);
-  const [conversations, setConversations] = useState<Conversation[]>([]);
-  const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
+  const [conversations, setConversations] = useState<Conversation[]>([defaultConversation]);
+  const [currentConversationId, setCurrentConversationId] = useState<string | null>(defaultConversation.id);
   const [selectedModel, setSelectedModel] = useState<string>(models[0].id);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null); // Ref para auto-scroll
 
   useEffect(() => {
     if (currentConversationId !== null) {
@@ -63,22 +72,45 @@ const ChatInterface: React.FC = () => {
       );
       setConversations(updatedConversations);
     }
+  }, [messages, currentConversationId]);
+
+  useEffect(() => {
+    scrollToBottom(); // Auto-scroll cada vez que se agregan mensajes
   }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const sendMessage = () => {
     if (input.trim()) {
-      const newMessages: Message[] = [...messages, { text: input, sender: 'user' }];
+      let conversationId = currentConversationId;
+
+      // Crear una nueva conversación si no existe
+      if (!conversationId) {
+        conversationId = uuidv4();
+        const newConversation: Conversation = {
+          id: conversationId,
+          name: `Conversation ${conversations.length + 1}`,
+          messages: [], // Inicialmente vacío, se actualizará con el mensaje de usuario
+        };
+        setConversations([...conversations, newConversation]);
+        setCurrentConversationId(conversationId);
+      }
+
+      const newMessage: Message = { text: input, sender: 'user' };
+      const newMessages: Message[] = [...messages, newMessage];
       setMessages(newMessages);
       setInput('');
-  
+
       // Crear la estructura del mensaje
       const messagePayload = {
-        conversation_id: currentConversationId,
+        conversation_id: conversationId,
         prompt: input,
       };
-  
+
       // Realizar la llamada POST a la API
-      fetch('http://localhost:8000/chat/', {
+      fetch('http://localhost:8000/chat_rag/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,24 +120,9 @@ const ChatInterface: React.FC = () => {
         .then(response => response.json())
         .then(data => {
           // Manejar la respuesta de la API
-          const updatedMessages: Message[] = [...newMessages, { text: data.response, sender: 'bot' as 'bot' }];
+          const botMessage: Message = { text: data.response, sender: 'bot' };
+          const updatedMessages: Message[] = [...newMessages, botMessage];
           setMessages(updatedMessages);
-  
-          // Guardar o actualizar la conversación
-          if (currentConversationId === null) {
-            const newConversation: Conversation = {
-              id: uuidv4(),
-              name: `Conversación ${conversations.length + 1}`,
-              messages: updatedMessages,
-            };
-            setConversations([...conversations, newConversation]);
-            setCurrentConversationId(newConversation.id);
-          } else {
-            const updatedConversations = conversations.map(conv =>
-              conv.id === currentConversationId ? { ...conv, messages: updatedMessages } : conv
-            );
-            setConversations(updatedConversations);
-          }
         })
         .catch(error => {
           console.error('Error al enviar el mensaje:', error);
@@ -155,18 +172,59 @@ const ChatInterface: React.FC = () => {
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    const newFiles = files.map(file => ({
-      fileName: file.name,
-      fileUrl: URL.createObjectURL(file),
-    }));
+    if (files.length === 0) return;
   
-    setConversations(prevConversations =>
-      prevConversations.map(conv =>
-        conv.id === currentConversationId
-          ? { ...conv, uploadedFiles: [...(conv.uploadedFiles || []), ...newFiles] }
-          : conv
-      )
-    );
+    // Filtrar archivos permitidos
+    const allowedTypes = ['application/pdf', 'text/plain', 'application/json'];
+    const filteredFiles = files.filter(file => allowedTypes.includes(file.type));
+  
+    if (filteredFiles.length === 0) {
+      alert('Solo se permiten archivos PDF, TXT o JSON.');
+      return;
+    }
+  
+    const formData = new FormData();
+    filteredFiles.forEach(file => {
+      formData.append('file', file); // Asegúrate de que el nombre 'file' coincide con lo que espera el backend
+    });
+  
+    fetch('http://localhost:8000/upload-file/', {
+      method: 'POST',
+      body: formData,
+    })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(errorData => {
+            throw new Error(`Error ${response.status}: ${errorData.detail}`);
+          });
+        }
+        return response.json();
+      })
+      .then(data => {
+        alert('Archivo subido exitosamente');
+  
+        // Suponiendo que la respuesta contiene una propiedad 'uploadedFiles'
+        if (data.uploadedFiles && Array.isArray(data.uploadedFiles)) {
+          const uploadedFiles = data.uploadedFiles.map((file: any) => ({
+            fileName: file.name,
+            fileUrl: file.url,
+          }));
+  
+          setConversations(prevConversations =>
+            prevConversations.map(conv =>
+              conv.id === currentConversationId
+                ? { ...conv, uploadedFiles: [...(conv.uploadedFiles || []), ...uploadedFiles] }
+                : conv
+            )
+          );
+        } else {
+          throw new Error('La respuesta del servidor no contiene la propiedad "uploadedFiles".');
+        }
+      })
+      .catch(error => {
+        console.error('Error al subir el archivo:', error);
+        alert(`Hubo un error al subir el archivo: ${error.message}`);
+      });
   };
 
   const currentConversation = conversations.find(conv => conv.id === currentConversationId);
@@ -187,7 +245,7 @@ const ChatInterface: React.FC = () => {
       <div className="flex flex-col flex-grow ml-80">
         {activeTab === 'chat' && (
           <>
-          <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center">
               <select
                 value={selectedModel}
                 onChange={handleModelChange}
@@ -208,13 +266,13 @@ const ChatInterface: React.FC = () => {
                 />
               </div>
             </div>
-            <div className="flex-grow overflow-auto space-y-4">
+            <div className="flex-grow overflow-auto space-y-4 p-4">
               {messages.length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {promptSuggestions.map((suggestion, index) => (
                       <Card key={index} className="cursor-pointer hover:bg-gray-100" onClick={() => setInput(suggestion)}>
-                        <CardContent className="flex items-center justify-center text-center">
+                        <CardContent className="flex items-center w-full text-center">
                           <p>{suggestion}</p>
                         </CardContent>
                       </Card>
@@ -223,13 +281,13 @@ const ChatInterface: React.FC = () => {
                 </div>
               ) : (
                 messages.map((msg, index) => (
-                  <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} mb-4`}>
                     {msg.sender === 'bot' && (
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-start space-x-2">
                         <div className="rounded-full bg-gray-200 text-black p-2">
                           <Monitor />
                         </div>
-                        <div className="rounded-lg p-2 max-w-xs bg-gray-200">
+                        <div className="rounded-lg p-4 bg-gray-200">
                           {msg.text}
                         </div>
                       </div>
@@ -243,9 +301,9 @@ const ChatInterface: React.FC = () => {
                             </a>
                           </div>
                         ) : (
-                        <div className="rounded-lg p-2 max-w-xs bg-blue-500 text-white">
-                          {msg.text}
-                        </div>
+                          <div className="rounded-lg p-2 bg-blue-500 text-white">
+                            {msg.text}
+                          </div>
                         )}
                         <div className="rounded-full bg-blue-500 text-white p-2">
                           <User />
@@ -255,9 +313,10 @@ const ChatInterface: React.FC = () => {
                   </div>
                 ))
               )}
+              <div ref={messagesEndRef} /> {/* Punto para auto-scroll */}
             </div>
-            <div className="fixed bottom-0 left-80 right-0 p-4 bg-white">
-            {(currentConversation?.uploadedFiles || []).length > 0 && (
+            <div className="left-80 right-0 p-4 bg-white">
+              {(currentConversation?.uploadedFiles || []).length > 0 && (
                 <div className="mb-2">
                   {(currentConversation?.uploadedFiles || []).map((file, index) => (
                     <div key={index} className="flex items-center space-x-2 mb-2 ml-10">
@@ -270,19 +329,22 @@ const ChatInterface: React.FC = () => {
                 </div>
               )}
               <div className="flex space-x-2">
-              <label htmlFor="file-upload" className="cursor-pointer">
-              <div className="p-2 hover:bg-gray-100 rounded-full mt-6">
-                <Paperclip className="text-gray-500" 
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Subir archivo"/>
-              </div>
-              <Tooltip id="tooltip" place="right"/>
+                <label htmlFor="file-upload" className="cursor-pointer">
+                  <div className="p-2 hover:bg-gray-100 rounded-full mt-6">
+                    <Paperclip 
+                      className="text-gray-500" 
+                      data-tooltip-id="tooltip"
+                      data-tooltip-content="Subir archivo"
+                    />
+                  </div>
+                  <Tooltip id="tooltip" place="right"/>
                 </label>
                 <input
                   id="file-upload"
                   type="file"
                   className="hidden"
-                  onChange={handleFileUpload}
+                  onChange={handleFileUpload} // Método actualizado
+                  accept=".pdf, .txt, .json" // Tipos de archivos permitidos
                 />
                 <Input
                   value={input}
@@ -295,7 +357,7 @@ const ChatInterface: React.FC = () => {
                   <Send />
                 </Button>
               </div>
-            <div className="flex items-center justify-center mt-4">
+              <div className="flex items-center justify-center mt-4">
                 <p className="disclaimer">Este asistente puede cometer errores.</p>
               </div>
             </div>
