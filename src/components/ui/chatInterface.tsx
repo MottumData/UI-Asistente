@@ -8,12 +8,14 @@ import { Send, User, Monitor, ArrowLeft, ArrowRight, Paperclip, File, Settings }
 import { v4 as uuidv4 } from 'uuid';
 import { Card, CardContent } from './card';
 import { Tooltip } from 'react-tooltip';
+import Markdown from 'react-markdown';
 import ReactMarkdown from 'react-markdown';
+import ReactDOM from 'react-dom'
 
 interface Message {
   text: string;
   sender: 'user' | 'bot';
-  type?: 'text' | 'file';
+  type?: 'text' | 'file' | 'html';
   fileName?: string;
   fileUrl?: string;
 }
@@ -110,7 +112,7 @@ const ChatInterface: React.FC = () => {
       };
 
       // Realizar la llamada POST a la API
-      fetch('http://localhost:8000/chat_rag/', {
+      fetch('http://localhost:8000/chat-rag/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -288,7 +290,9 @@ const ChatInterface: React.FC = () => {
                           <Monitor />
                         </div>
                         <div className="rounded-lg p-4 bg-gray-200">
-                          {msg.text}
+                        <div key={index} className={`message ${msg.sender}`}>
+                        <Markdown>{msg.text}</Markdown>
+                        </div>
                         </div>
                       </div>
                     )}
