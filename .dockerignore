@@ -25,3 +25,13 @@ logs
 .parcel-cache
 .tmp
 .temp
+
+# Ignorar archivos de dependencias locales
+# node_modules
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+# Ignorar archivos de configuración de editores
+.vscode
+.idea
