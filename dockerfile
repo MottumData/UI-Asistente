@@ -28,4 +28,4 @@ COPY --from=builder /app/package*.json ./
 EXPOSE 3000
 
 # Comando para ejecutar la aplicación
-CMD ["npm", "run", "start"]
+ENTRYPOINT ["npm", "run", "start"]
