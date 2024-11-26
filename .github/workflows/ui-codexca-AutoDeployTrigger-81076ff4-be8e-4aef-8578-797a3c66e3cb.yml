@@ -50,6 +50,6 @@ jobs:
           --name ui-codexca \
           --resource-group LLM-Codexca \
           --image llmcodexca.azurecr.io/ui-codexca:${{ github.sha }} \
-          --environment-variables API_BASE_URL=${{ secrets.API_BASE_URL }}
+          --set-env-vars API_BASE_URL=${{ secrets.API_BASE_URL }}
 
 
