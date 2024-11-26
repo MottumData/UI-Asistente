@@ -66,7 +66,7 @@ const ChatInterface: React.FC = () => {
   const [selectedModel, setSelectedModel] = useState<string>(models[0].id);
 
   const messagesEndRef = useRef<HTMLDivElement>(null); // Ref para auto-scroll
-  const apiURL = process.env.API_BASE_URL || 'http://localhost:3000';
+  const apiURL = process.env.API_BASE_URL || 'https://api-codexca.greenriver-07b808c1.westus.azurecontainerapps.io';
   console.log('API URL:', apiURL);
   useEffect(() => {
     if (currentConversationId !== null) {
