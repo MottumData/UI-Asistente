@@ -66,7 +66,8 @@ const ChatInterface: React.FC = () => {
   const [selectedModel, setSelectedModel] = useState<string>(models[0].id);
 
   const messagesEndRef = useRef<HTMLDivElement>(null); // Ref para auto-scroll
-
+  const apiURL = process.env.API_BASE_URL || 'http://localhost:3000';
+  console.log('API URL:', apiURL);
   useEffect(() => {
     if (currentConversationId !== null) {
       const updatedConversations = conversations.map(conv =>
@@ -111,8 +112,9 @@ const ChatInterface: React.FC = () => {
         prompt: input,
       };
 
+     
       // Realizar la llamada POST a la API
-      fetch('http://localhost:8000/chat-rag/', {
+      fetch('{apiURL}/chat-rag/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -190,7 +192,7 @@ const ChatInterface: React.FC = () => {
       formData.append('file', file); // Asegúrate de que el nombre 'file' coincide con lo que espera el backend
     });
   
-    fetch('http://localhost:8000/upload-file/', {
+    fetch('${apiURL}/upload-file/', {
       method: 'POST',
       body: formData,
     })
