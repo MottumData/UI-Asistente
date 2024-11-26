@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from './sideBar'; // Import Sidebar
 import { Button } from './button';
 import { Input } from './input';
-import { Send, User, Monitor, ArrowLeft, ArrowRight, Paperclip, File, Settings } from 'lucide-react'; 
+import { Send, User, Monitor, ArrowLeft, ArrowRight, Paperclip, File, Settings, SendHorizonal } from 'lucide-react'; 
 import { v4 as uuidv4 } from 'uuid';
 import { Card, CardContent } from './card';
 import { Tooltip } from 'react-tooltip';
@@ -112,7 +112,7 @@ const ChatInterface: React.FC = () => {
       };
 
       // Realizar la llamada POST a la API
-      fetch('http://localhost:8000/chat-rag/', {
+      fetch('http://localhost:8000/chat/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -171,65 +171,6 @@ const ChatInterface: React.FC = () => {
   const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedModel(e.target.value);
   };
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    if (files.length === 0) return;
-  
-    // Filtrar archivos permitidos
-    const allowedTypes = ['application/pdf', 'text/plain', 'application/json'];
-    const filteredFiles = files.filter(file => allowedTypes.includes(file.type));
-  
-    if (filteredFiles.length === 0) {
-      alert('Solo se permiten archivos PDF, TXT o JSON.');
-      return;
-    }
-  
-    const formData = new FormData();
-    filteredFiles.forEach(file => {
-      formData.append('file', file); // Asegúrate de que el nombre 'file' coincide con lo que espera el backend
-    });
-  
-    fetch('http://localhost:8000/upload-file/', {
-      method: 'POST',
-      body: formData,
-    })
-      .then(response => {
-        if (!response.ok) {
-          return response.json().then(errorData => {
-            throw new Error(`Error ${response.status}: ${errorData.detail}`);
-          });
-        }
-        return response.json();
-      })
-      .then(data => {
-        alert('Archivo subido exitosamente');
-  
-        // Suponiendo que la respuesta contiene una propiedad 'uploadedFiles'
-        if (data.uploadedFiles && Array.isArray(data.uploadedFiles)) {
-          const uploadedFiles = data.uploadedFiles.map((file: any) => ({
-            fileName: file.name,
-            fileUrl: file.url,
-          }));
-  
-          setConversations(prevConversations =>
-            prevConversations.map(conv =>
-              conv.id === currentConversationId
-                ? { ...conv, uploadedFiles: [...(conv.uploadedFiles || []), ...uploadedFiles] }
-                : conv
-            )
-          );
-        } else {
-          throw new Error('La respuesta del servidor no contiene la propiedad "uploadedFiles".');
-        }
-      })
-      .catch(error => {
-        console.error('Error al subir el archivo:', error);
-        alert(`Hubo un error al subir el archivo: ${error.message}`);
-      });
-  };
-
-  const currentConversation = conversations.find(conv => conv.id === currentConversationId);
 
   return (
     <div className="flex h-screen">
@@ -320,36 +261,7 @@ const ChatInterface: React.FC = () => {
               <div ref={messagesEndRef} /> {/* Punto para auto-scroll */}
             </div>
             <div className="left-80 right-0 p-4 bg-white">
-              {(currentConversation?.uploadedFiles || []).length > 0 && (
-                <div className="mb-2">
-                  {(currentConversation?.uploadedFiles || []).map((file, index) => (
-                    <div key={index} className="flex items-center space-x-2 mb-2 ml-10">
-                      <File className="text-gray-500" />
-                      <a href={file.fileUrl} target="_blank" rel="noopener noreferrer">
-                        {file.fileName}
-                      </a>
-                    </div>
-                  ))}
-                </div>
-              )}
               <div className="flex space-x-2">
-                <label htmlFor="file-upload" className="cursor-pointer">
-                  <div className="p-2 hover:bg-gray-100 rounded-full mt-6">
-                    <Paperclip 
-                      className="text-gray-500" 
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content="Subir archivo"
-                    />
-                  </div>
-                  <Tooltip id="tooltip" place="right"/>
-                </label>
-                <input
-                  id="file-upload"
-                  type="file"
-                  className="hidden"
-                  onChange={handleFileUpload} // Método actualizado
-                  accept=".pdf, .txt, .json" // Tipos de archivos permitidos
-                />
                 <Input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -357,9 +269,30 @@ const ChatInterface: React.FC = () => {
                   onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
                   className="flex-grow rounded-full mt-4"
                 />
-                <Button onClick={sendMessage} className='mt-4'>
-                  <Send />
-                </Button>
+                <button
+                  onClick={sendMessage}
+                  className="
+                    mt-4
+                    p-2
+                    rounded-full
+                    focus:outline-none
+                    transition
+                    duration-200
+                    ease-in-out
+                  "
+                  aria-label="Enviar mensaje"
+                >
+                  <SendHorizonal
+                    className="
+                      w-6 h-6
+                      hover:text-gray-700
+                      active:opacity-75
+                      transition-opacity
+                      duration-200
+                      ease-in-out
+                    "
+                  />
+                </button>
               </div>
               <div className="flex items-center justify-center mt-4">
                 <p className="disclaimer">Este asistente puede cometer errores.</p>
