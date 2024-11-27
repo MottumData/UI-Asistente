@@ -3,6 +3,8 @@
 import React from 'react';
 import ChatInterface from './chatInterface';
 import styled, { createGlobalStyle } from 'styled-components';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap');
@@ -88,6 +90,7 @@ const App: React.FC = () => {
       <GlobalStyle />
       <div className="container mx-auto p-4 h-screen">
       <ChatInterface />
+      <ToastContainer />
     </div>
     </>
   );
