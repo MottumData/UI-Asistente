@@ -59,7 +59,7 @@ const ChatInterface: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false); // New state for loading
 
   const messagesEndRef = useRef<HTMLDivElement>(null); // Ref para auto-scroll
-  const apiURL = process.env.API_BASE_URL || 'http://localhost:8000';
+  const apiURL = process.env.API_BASE_URL || 'https://api-codexca.greenriver-07b808c1.westus.azurecontainerapps.io';
   useEffect(() => {
     if (currentConversationId !== null) {
       const updatedConversations = conversations.map(conv =>
