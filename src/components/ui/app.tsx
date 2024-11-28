@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import ChatInterface from './chatInterface';
+import ChatInterface from './ChatInterface/chatInterface';
 import styled, { createGlobalStyle } from 'styled-components';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
