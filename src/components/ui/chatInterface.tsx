@@ -10,6 +10,9 @@ import { Card, CardContent } from './card';
 import { Tooltip } from 'react-tooltip';
 import Markdown from 'react-markdown';
 import { toast } from 'react-toastify';
+import Message from './message';
+import FileUpload from './fileUpload';
+import SendButton from './sendButton';
 
 interface Message {
   text: string;
@@ -60,6 +63,7 @@ const ChatInterface: React.FC = () => {
 
   const messagesEndRef = useRef<HTMLDivElement>(null); // Ref para auto-scroll
   const apiURL = process.env.API_BASE_URL || 'http://localhost:8000';
+
   useEffect(() => {
     if (currentConversationId !== null) {
       const updatedConversations = conversations.map(conv =>
@@ -256,7 +260,7 @@ const ChatInterface: React.FC = () => {
                 data-tooltip-content="Configuración"
               />
             </div>
-            <div className="flex-grow overflow-auto px-8 space-y-4 p-4">
+            <div className="flex-grow overflow-auto no-scrollbar px-8 space-y-4 p-4">
               {messages.length === 0 ? (
                 <div className="flex items-center justify-center h-full">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -271,41 +275,10 @@ const ChatInterface: React.FC = () => {
                 </div>
               ) : (
                 messages.map((msg, index) => (
-                  <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} mb-4`}>
-                    {msg.sender === 'bot' && (
-                      <div className="flex items-start space-x-2">
-                        <div className="rounded-full bg-gray-200 text-black p-2">
-                          <Monitor />
-                        </div>
-                        <div className="rounded-lg p-4 bg-gray-200">
-                        <div key={index} className={`message ${msg.sender}`}>
-                        <Markdown>{msg.text}</Markdown>
-                        </div>
-                        </div>
-                      </div>
-                    )}
-                    {msg.sender === 'user' && (
-                      <div className="flex items-center space-x-2">
-                        {msg.type === 'file' ? (
-                          <div className="rounded-lg p-2 max-w-xs bg-blue-500 text-white">
-                            <a href={msg.fileUrl} target="_blank" rel="noopener noreferrer">
-                              {msg.fileName}
-                            </a>
-                          </div>
-                        ) : (
-                          <div className="rounded-lg p-2 bg-blue-500 text-white">
-                            {msg.text}
-                          </div>
-                        )}
-                        <div className="rounded-full bg-blue-500 text-white p-2">
-                          <User />
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  <Message key={index} msg={msg} />
                 ))
               )}
-              <div ref={messagesEndRef} /> {/* Punto para auto-scroll */}
+              <div ref={messagesEndRef} />
             </div>
             <div className="left-80 right-0 p-4 bg-white">
               {(currentConversation?.uploadedFiles || []).length > 0 && (
@@ -321,69 +294,16 @@ const ChatInterface: React.FC = () => {
                 </div>
               )}
               <div className="flex space-x-2">
-                <label htmlFor="file-upload" className="cursor-pointer">
-                  <div className="p-2 mt-6">
-                    <Paperclip 
-                      className="
-                      focus:outline-none
-                      w-6 h-6
-                      hover:text-gray-700
-                      active:opacity-75
-                      transition-opacity
-                      duration-200
-                      ease-in-out
-                    "
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content="Subir archivo"
-                    />
-                  </div>
-                  <Tooltip id="tooltip" place="top"/>
-                </label>
-                <input
-                  type="file"
-                  id="file-upload"
-                  style={{ display: 'none' }}
-                  onChange={handleFileUpload}
-                />
+                <FileUpload onFileChange={handleFileUpload} />
                 <Input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Escribe un mensaje..."
                   className="flex-grow rounded-full mt-4"
                   disabled={isLoading}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey && !isLoading) {
-                      e.preventDefault(); // Prevents adding a newline if using a textarea
-                      sendMessage();
-                    }
-                  }
-                  }
+                  onSubmit={sendMessage} // Updated prop
                 />
-                <button
-                  onClick={sendMessage}
-                  className="
-                    mt-4
-                    p-2
-                    rounded-full
-                    focus:outline-none
-                    transition
-                    duration-200
-                    ease-in-out
-                  "
-                  aria-label="Enviar mensaje"
-                  disabled={isLoading}
-                >
-                  <SendHorizonal
-                    className="
-                      w-6 h-6
-                      hover:text-gray-700
-                      active:opacity-75
-                      transition-opacity
-                      duration-200
-                      ease-in-out
-                    "
-                  />
-                </button>
+                <SendButton onClick={sendMessage} disabled={isLoading} />
               </div>
               <div className="flex items-center justify-center mt-4">
                 <p className="disclaimer">Este asistente puede cometer errores.</p>
