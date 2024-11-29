@@ -96,6 +96,7 @@ const ChatPage: React.FC = () => {
             updateConversationName={updateConversationName}
             deleteConversation={deleteConversation}
             createNewConversation={createNewConversation}
+            handleNextStep={() => setStep(step + 1)}
         />
             {activeTab === 'chat' ? 
             <ChatInterface

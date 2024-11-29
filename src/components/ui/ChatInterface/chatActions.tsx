@@ -30,6 +30,7 @@ const useChatActions = (
   isLoading: boolean,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
+  
   const sendMessage = () => {
     if (input.trim()) {
       let conversationId = currentConversationId;

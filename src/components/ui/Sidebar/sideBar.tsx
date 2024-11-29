@@ -7,7 +7,7 @@ import UploadedFiles from './uploadedFiles';
 import useSidebarActions from './sidebarActions';
 import CreateNewConversationButton from './createConversationButton';
 import UploadTdrContainer from '../Pages/uploadTdrPage';
-import UploadGuide from '../uploadGuide';
+import UploadGuide from '../UploadTdr/uploadGuide';
 
 interface SidebarProps {
   activeTab: 'chat' | 'upload';
@@ -18,6 +18,7 @@ interface SidebarProps {
   updateConversationName: (id: string, name: string) => void;
   deleteConversation: (id: string) => void;
   createNewConversation: () => void;
+  handleNextStep: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ 
@@ -128,7 +129,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </TabsContent>
         <TabsContent value="upload" className="p-0">
           <div className="overflow-y-scroll h-[60vh] no-scrollbar">
-          <UploadGuide step={step}/>
+          <UploadGuide step={step} onNext={handleNextStep} />
           </div>
         </TabsContent>
       </Tabs>
