@@ -3,8 +3,7 @@ import { Card, CardContent } from './card';
 
 interface UploadGuideProps {
   step: number;
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
+  
 }
 
 const steps = [
@@ -17,6 +16,7 @@ const steps = [
 ];
 
   const UploadGuide: React.FC<UploadGuideProps> = ({ step }) => {
+
     return (
       <div className="space-y-4">
         {steps.map((s, index) => (

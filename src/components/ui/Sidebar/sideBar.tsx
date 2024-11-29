@@ -6,10 +6,12 @@ import ConversationItem from './conversationItem';
 import UploadedFiles from './uploadedFiles';
 import useSidebarActions from './sidebarActions';
 import CreateNewConversationButton from './createConversationButton';
+import UploadTdrContainer from '../Pages/uploadTdrPage';
+import UploadGuide from '../uploadGuide';
 
 interface SidebarProps {
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
+  activeTab: 'chat' | 'upload';
+  setActiveTab: (tab: 'chat' | 'upload') => void;
   step: number;
   conversations: { id: string; name: string; messages: { text: string; sender: 'user' | 'bot' }[] }[];
   loadConversation: (id: string) => void;
@@ -84,7 +86,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
+      <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as 'chat' | 'upload')} className="h-full flex flex-col">
         <TabsList className="grid w-full grid-cols-2 gap-4 bg-gray-300 p-2 rounded-lg ">
           <TabsTrigger value="chat" className="p-2 text-center bg-gray-300 rounded-lg hover:bg-gray-100">Gestor Documental</TabsTrigger>
           <TabsTrigger value="upload" className="p-2 text-center bg-gray-300 rounded-lg hover:bg-gray-100">Agente de Licitaciones</TabsTrigger>
@@ -116,10 +118,15 @@ const Sidebar: React.FC<SidebarProps> = ({
               ))}
             </ul>
           </div>
+          <UploadedFiles/>
           {/* Desplegable de Archivos Subidos */}
         </TabsContent>
+        <TabsContent value="upload" className="p-0">
+          <div className="overflow-y-scroll h-[60vh] no-scrollbar">
+            <UploadGuide step={0} />
+          </div>
+        </TabsContent>
       </Tabs>
-      <UploadedFiles/>
     </div>
   );
 };
