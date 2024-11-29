@@ -43,7 +43,7 @@ const ChatInterface: React.FC = () => {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const apiURL = process.env.API_BASE_URL || 'https://api-codexca.greenriver-07b808c1.westus.azurecontainerapps.io';
+  const apiURL = process.env.API_BASE_URL || 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
 
   const {
     sendMessage,

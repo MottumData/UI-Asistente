@@ -36,7 +36,7 @@ const ChatPage: React.FC = () => {
     const [conversations, setConversations] = useState<Conversation[]>([defaultConversation]);
     const [currentConversationId, setCurrentConversationId] = useState<string | null>(defaultConversation.id);
     const [isLoading, setIsLoading] = useState(false);
-    const apiURL = process.env.API_BASE_URL || 'https://api-codexca.greenriver-07b808c1.westus.azurecontainerapps.io';
+    const apiURL = process.env.API_BASE_URL || 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
 
     const {
         loadConversation,
