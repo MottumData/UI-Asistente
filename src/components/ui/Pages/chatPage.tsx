@@ -1,5 +1,5 @@
 // ChatPage.tsx
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import ChatInterface from '../ChatInterface/chatInterface';
 import Sidebar from '../Sidebar/sideBar';
 import { v4 as uuidv4 } from 'uuid';
@@ -27,6 +27,7 @@ interface Message {
     messages: [],
   };
   
+  
 
 const ChatPage: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -39,24 +40,49 @@ const ChatPage: React.FC = () => {
     const apiURL = process.env.API_BASE_URL || 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
 
     const {
-        loadConversation,
-        updateConversationName,
-        createNewConversation,
-        deleteConversation,
-      } = useChatActions(
-        conversations,
-        setConversations,
-        currentConversationId,
-        setCurrentConversationId,
-        setMessages,
-        input,
-        setInput,
-        apiURL,
-        isLoading,
-        setIsLoading
-      );
+      loadConversation,
+      updateConversationName,
+      createNewConversation,
+      deleteConversation,
+      sendMessage,
+      handleFileUpload,
+    } = useChatActions(
+      conversations,
+      setConversations,
+      currentConversationId,
+      setCurrentConversationId,
+      setMessages,
+      input,
+      setInput,
+      apiURL,
+      isLoading,
+      setIsLoading
+    );
 
     console.log('activeTab:', activeTab);
+
+    useEffect(() => {
+      if (currentConversationId !== null) {
+        const currentConv = conversations.find(
+          (conv) => conv.id === currentConversationId
+        );
+        if (currentConv) {
+          setMessages(currentConv.messages || []);
+        } else {
+          setMessages([]);
+        }
+      }
+    }, [currentConversationId]);
+
+    useEffect(() => {
+      if (currentConversationId !== null) {
+        setConversations((prevConversations) =>
+          prevConversations.map((conv) =>
+            conv.id === currentConversationId ? { ...conv, messages } : conv
+          )
+        );
+      }
+    }, [messages]);
 
   return (
     <div className="chat-page">
@@ -71,7 +97,19 @@ const ChatPage: React.FC = () => {
             deleteConversation={deleteConversation}
             createNewConversation={createNewConversation}
         />
-            {activeTab === 'chat' ? <ChatInterface /> : <UploadTdrPage />}
+            {activeTab === 'chat' ? 
+            <ChatInterface
+            messages={messages}
+            setMessages={setMessages}
+            input={input}
+            setInput={setInput}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            apiURL={apiURL}
+            sendMessage={sendMessage}
+            handleFileUpload={handleFileUpload}
+          />
+         : <UploadTdrPage />}
         </div>
     </div>
   );

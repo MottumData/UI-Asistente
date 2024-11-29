@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useEffect, useRef } from 'react';
 import Message from './message';
 import LoadingIndicator from './loadingIndicator';
 import MessageList from './messageList';
@@ -18,19 +17,6 @@ interface Message {
   fileUrl?: string;
 }
 
-interface Conversation {
-  id: string;
-  name: string;
-  messages: Message[];
-  uploadedFiles?: { fileName: string; fileUrl: string }[];
-}
-
-const defaultConversation: Conversation = {
-  id: uuidv4(),
-  name: `Conversación 1`,
-  messages: [],
-};
-
 const promptSuggestions = [
   "¿Qué criterios de evaluación se mencionan en los términos de referencia?",
   "¿Qué documentos debo incluir en la oferta para cumplir con los requisitos de la licitación?",
@@ -38,29 +24,31 @@ const promptSuggestions = [
   "¿Cuáles son las fechas clave para la presentación de esta licitación?"
 ];
 
-const ChatInterface: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+interface ChatInterfaceProps {
+  messages: Message[];
+  setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+  input: string;
+  setInput: React.Dispatch<React.SetStateAction<string>>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  apiURL: string;
+  sendMessage: () => void;
+  handleFileUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const ChatInterface: React.FC<ChatInterfaceProps> = ({
+  messages,
+  setMessages,
+  input,
+  setInput,
+  isLoading,
+  setIsLoading,
+  apiURL,
+  sendMessage,
+  handleFileUpload,
+
+}) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const apiURL = process.env.API_BASE_URL || 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
-
-  const {
-    sendMessage,
-    handleFileUpload,
-  } = useChatActions(
-    [],
-    () => {},
-    null,
-    () => {},
-    setMessages,
-    input,
-    setInput,
-    apiURL,
-    isLoading,
-    setIsLoading
-  );
-
   useEffect(() => {
     scrollToBottom();
   }, [messages]);

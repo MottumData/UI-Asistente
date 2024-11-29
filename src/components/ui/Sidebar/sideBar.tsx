@@ -36,6 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const [step, setStep] = useState(0);
 
   const {
     handleEditClick,
@@ -58,6 +59,10 @@ const Sidebar: React.FC<SidebarProps> = ({
     editingId,
     activeConversationId, // Pasando activeConversationId al hook
   });
+
+  const handleNextStep = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
   
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -123,7 +128,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </TabsContent>
         <TabsContent value="upload" className="p-0">
           <div className="overflow-y-scroll h-[60vh] no-scrollbar">
-            <UploadGuide step={0} />
+          <UploadGuide step={step}/>
           </div>
         </TabsContent>
       </Tabs>

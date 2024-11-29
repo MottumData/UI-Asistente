@@ -3,7 +3,6 @@ import { Card, CardContent } from './card';
 
 interface UploadGuideProps {
   step: number;
-  
 }
 
 const steps = [

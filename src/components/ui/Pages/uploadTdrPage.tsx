@@ -1,7 +1,9 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import Step1 from '../UploadTdr/step1';
+import UploadGuide from '../uploadGuide';
 
 const UploadTdrPage = styled.div`
   flex: 1;
@@ -12,11 +14,18 @@ const UploadTdrPage = styled.div`
 `;
 
 const UploadTdrInterface: React.FC = () => {
+  const [step, setStep] = useState(0);
+
+  const handleNextStep = () => {
+    setStep((prevStep) => prevStep + 1);
+  };
+
   return (
-    <UploadTdrPage>
-      <h1>Ajustes</h1>
-      {/* Añade aquí el contenido de ajustes */}
-    </UploadTdrPage>
+    <div className='ml-80'>
+      <UploadTdrPage>
+        {step === 1 && <Step1 onNext={handleNextStep} />}
+      </UploadTdrPage>
+    </div>
   );
 };
 
