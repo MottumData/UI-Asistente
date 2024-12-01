@@ -34,9 +34,10 @@ const useChatActions = (
   const sendMessage = () => {
     if (input.trim()) {
       let conversationId = currentConversationId;
+      console.log(currentConversationId);
       
       setIsLoading(true);
-      if (!conversationId) {
+      if (conversationId && conversations.length === 0) {
         conversationId = uuidv4();
         const newConversation: Conversation = {
           id: conversationId,

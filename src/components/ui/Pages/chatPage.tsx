@@ -34,7 +34,7 @@ const ChatPage: React.FC = () => {
     const [input, setInput] = useState('');
     const [activeTab, setActiveTab] = useState<'chat' | 'upload'>('chat');
     const [step, setStep] = useState(0);
-    const [conversations, setConversations] = useState<Conversation[]>([defaultConversation]);
+    const [conversations, setConversations] = useState<Conversation[]>([]);
     const [currentConversationId, setCurrentConversationId] = useState<string | null>(defaultConversation.id);
     const [isLoading, setIsLoading] = useState(false);
     const apiURL = process.env.API_BASE_URL || 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
@@ -58,8 +58,6 @@ const ChatPage: React.FC = () => {
       isLoading,
       setIsLoading
     );
-
-    console.log('activeTab:', activeTab);
 
     useEffect(() => {
       if (currentConversationId !== null) {

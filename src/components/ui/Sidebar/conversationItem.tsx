@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useMemo } from 'react';
 import { Edit, Trash } from 'lucide-react';
 import { Tooltip } from 'react-tooltip';
 import { Card } from '../card'; // Asegúrate de que el componente Card está correctamente importado
@@ -44,6 +44,10 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
   activeConversationId,
   handleConversationClick,
 }) => {
+  // Utilizamos useMemo para que estos IDs se generen una sola vez
+  const editTooltipId = `edit-tooltip-${conv.id}`;
+  const deleteTooltipId = `delete-tooltip-${conv.id}`;
+
   return (
     <Card
       className={classNames(
@@ -87,11 +91,11 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
                   e.stopPropagation(); 
                   handleEditClick(conv.id, conv.name, e); 
                 }}
-                data-tooltip-id={`edit-tooltip-${conv.id}`}
+                data-tooltip-id={editTooltipId}
                 data-tooltip-content="Renombrar"
                 aria-label="Renombrar conversación"
               />
-              <Tooltip id={`edit-tooltip-${conv.id}`} place="top" />
+              <Tooltip id={editTooltipId} place="top" />
             </div>
             <div className="p-1 hover:bg-gray-100 rounded-lg cursor-pointer">
               <Trash
@@ -101,11 +105,11 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
                   e.stopPropagation(); 
                   handleDeleteClick(conv.id, e); 
                 }}
-                data-tooltip-id={`delete-tooltip-${conv.id}`}
+                data-tooltip-id={deleteTooltipId}
                 data-tooltip-content="Borrar"
                 aria-label="Borrar conversación"
               />
-              <Tooltip id={`delete-tooltip-${conv.id}`} place="top" />
+              <Tooltip id={deleteTooltipId} place="top" />
             </div>
           </div>
         </div>
