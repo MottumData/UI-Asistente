@@ -9,7 +9,7 @@ interface UploadedFile {
   fileType: string;
 }
 
-const apiURL = process.env.API_BASE_URL || 'https://api-codexca.greenriver-07b808c1.westus.azurecontainerapps.io'; // Replace with your actual API URL
+const apiURL = process.env.API_BASE_URL || 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io'; // Replace with actual API URL
 
 const UploadedFiles: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

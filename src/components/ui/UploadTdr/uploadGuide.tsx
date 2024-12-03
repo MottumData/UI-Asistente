@@ -1,10 +1,9 @@
 import React from 'react';
-import { Card, CardContent } from './card';
+import { Card, CardContent } from '../card';
 
 interface UploadGuideProps {
   step: number;
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
+  onNext: () => void;
 }
 
 const steps = [
@@ -16,7 +15,8 @@ const steps = [
   { title: 'Proceso completado', content: 'Tu documento ha sido subido exitosamente.' },
 ];
 
-  const UploadGuide: React.FC<UploadGuideProps> = ({ step }) => {
+  const UploadGuide: React.FC<UploadGuideProps> = ({ step, onNext }) => {
+
     return (
       <div className="space-y-4">
         {steps.map((s, index) => (
