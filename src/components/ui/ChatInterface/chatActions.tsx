@@ -1,5 +1,4 @@
 // File: useChatActions.ts
-import { useState, useEffect, useRef } from 'react';
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -186,7 +185,12 @@ const useChatActions = (
     createNewConversation,
     deleteConversation,
     handleFileUpload,
+    openSettingsInfo,
   };
+};
+
+export const openSettingsInfo = (setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
+  setIsModalOpen(true);
 };
 
 export default useChatActions;

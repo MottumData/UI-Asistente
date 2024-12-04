@@ -113,7 +113,6 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
             </div>
           </div>
         </div>
-        <span className="text-xs text-gray-500 mt-1 break-all">{conv.id}</span>
       </li>
     </Card>
   );

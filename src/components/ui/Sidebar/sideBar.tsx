@@ -6,19 +6,17 @@ import ConversationItem from './conversationItem';
 import UploadedFiles from './uploadedFiles';
 import useSidebarActions from './sidebarActions';
 import CreateNewConversationButton from './createConversationButton';
-import UploadTdrContainer from '../Pages/uploadTdrPage';
 import UploadGuide from '../UploadTdr/uploadGuide';
 
 interface SidebarProps {
   activeTab: 'chat' | 'upload';
   setActiveTab: (tab: 'chat' | 'upload') => void;
-  step: number;
   conversations: { id: string; name: string; messages: { text: string; sender: 'user' | 'bot' }[] }[];
   loadConversation: (id: string) => void;
   updateConversationName: (id: string, name: string) => void;
   deleteConversation: (id: string) => void;
   createNewConversation: () => void;
-  handleNextStep: () => void;
+  step: number;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ 
@@ -28,7 +26,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   loadConversation, 
   updateConversationName, 
   deleteConversation, 
-  createNewConversation 
+  createNewConversation,
+  step 
 }) => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [newName, setNewName] = useState<string>('');
@@ -37,7 +36,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
-  const [step, setStep] = useState(0);
 
   const {
     handleEditClick,
@@ -61,10 +59,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     activeConversationId, // Pasando activeConversationId al hook
   });
 
-  const handleNextStep = () => {
-    setStep((prevStep) => prevStep + 1);
-  };
-  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownOpenId !== null && !dropdownRef.current?.contains(event.target as Node)) {
@@ -84,6 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   }, [editingId]);
 
+  console.log ('step', step);
   return (
     <div className="fixed top-5 left-5 bottom-5 w-80 bg-gray-200 p-6 rounded-2xl flex flex-col">
       {/* Logo */}
@@ -124,12 +119,12 @@ const Sidebar: React.FC<SidebarProps> = ({
               ))}
             </ul>
           </div>
-          <UploadedFiles/>
+          {/* <uploadedFiles/> */}
           {/* Desplegable de Archivos Subidos */}
         </TabsContent>
         <TabsContent value="upload" className="p-0">
           <div className="overflow-y-scroll h-[60vh] no-scrollbar">
-          <UploadGuide step={step} onNext={handleNextStep} />
+          <UploadGuide step={step}/>
           </div>
         </TabsContent>
       </Tabs>

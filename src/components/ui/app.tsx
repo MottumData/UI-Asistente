@@ -89,6 +89,7 @@ const App: React.FC = () => {
     <>
       <GlobalStyle />
       <div className="container mx-auto p-4 h-screen">
+
       <ChatPage />
       <ToastContainer />
     </div>
