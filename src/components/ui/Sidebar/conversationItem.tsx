@@ -48,13 +48,14 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
   const editTooltipId = `edit-tooltip-${conv.id}`;
   const deleteTooltipId = `delete-tooltip-${conv.id}`;
 
+  console.log('Active Conversation ID2 set to:', activeConversationId);
   return (
     <Card
       className={classNames(
         'flex-grow w-full p-4 rounded-lg mb-4 cursor-pointer transition-all duration-200',
         {
-          'border-l-4 border-l-blue-500': activeConversationId === conv.id,
-          'bg-white border-l-2 border-l-blue-300': activeConversationId !== conv.id,
+          'border-l-4 border-l-blue-500': activeConversationId === conv.id && !isEditing,
+          'border-l-2 border-l-blue-300 bg-white': activeConversationId !== conv.id && !isEditing,
           'border-l-4 border-l-blue-400 shadow-inner': isEditing,
         }
       )}

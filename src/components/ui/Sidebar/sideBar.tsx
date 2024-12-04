@@ -78,7 +78,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   }, [editingId]);
 
-  console.log ('step', step);
   return (
     <div className="fixed top-5 left-5 bottom-5 w-80 bg-gray-200 p-6 rounded-2xl flex flex-col">
       {/* Logo */}
@@ -119,7 +118,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               ))}
             </ul>
           </div>
-          {/* <uploadedFiles/> */}
+          {/*<UploadedFiles/>*/}
           {/* Desplegable de Archivos Subidos */}
         </TabsContent>
         <TabsContent value="upload" className="p-0">

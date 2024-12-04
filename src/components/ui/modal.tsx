@@ -18,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl transform transition-transform duration-300 scale-100 hover:scale-105"
+        className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl transform transition-transform duration-300 scale-100 hover:scale-105 max-w-xl w-full mx-4"
         onClick={(e) => e.stopPropagation()}
       >
         <button

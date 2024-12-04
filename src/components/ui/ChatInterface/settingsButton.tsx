@@ -41,7 +41,7 @@ const SettingsButton: React.FC = () => {
       {/* Componente Modal */}
       <Modal isOpen={isModalOpen} onClose={handleClose}>
       <img
-          src="/Activa_startups.png" // Reemplaza con la ruta de tu imagen
+          src="/Activa_startups.svg" // Reemplaza con la ruta de tu imagen
           alt="Activa Startups"
           className="w-full h-auto mb-4 rounded"
         />
