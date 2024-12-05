@@ -7,7 +7,7 @@ interface UseSidebarActionsProps {
   updateConversationName: (id: string, name: string) => void;
   loadConversation: (id: string) => void;
   deleteConversation: (id: string) => void;
-  createNewConversation: () => void;
+  createNewConversation: () => string;
   setDropdownOpenId: React.Dispatch<React.SetStateAction<string | null>>;
   setActiveConversationId: React.Dispatch<React.SetStateAction<string | null>>;
   chatContainerRef: React.RefObject<HTMLDivElement>;
@@ -70,7 +70,9 @@ const useSidebarActions = ({
   };
 
   const handleCreateNewConversation = () => {
-    createNewConversation();
+    const newConversationId = createNewConversation(); // Ahora obtienes el ID
+    setActiveConversationId(newConversationId);
+    loadConversation(newConversationId); 
     toast.success('Chat añadido con éxito');
     setTimeout(() => {
       if (chatContainerRef.current) {

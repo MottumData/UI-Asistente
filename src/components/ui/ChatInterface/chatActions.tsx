@@ -33,10 +33,12 @@ const useChatActions = (
   const sendMessage = () => {
     if (input.trim()) {
       let conversationId = currentConversationId;
-      console.log(currentConversationId);
+
+      console.log('conversationId al escribir:', currentConversationId);
+      console.log('Número de conversaciones al escribir:', conversations.length);
       
       setIsLoading(true);
-      if (conversationId && conversations.length === 0) {
+      if (!conversationId && conversations.length === 0) {
         conversationId = uuidv4();
         const newConversation: Conversation = {
           id: conversationId,
@@ -102,12 +104,15 @@ const useChatActions = (
       messages: [],
     };
     setConversations(prevConversations => [...prevConversations, newConversation]);
+    console.log('Número de conversaciones:', conversations.length);
     setCurrentConversationId(newConversation.id);
     setMessages([]);
+    return newConversation.id;
   };
 
   const deleteConversation = (id: string) => {
     setConversations(prevConversations => prevConversations.filter(conv => conv.id !== id));
+    console.log('Número de conversaciones_borrar:', conversations.length);
   
     if (currentConversationId === id) {
       setCurrentConversationId(null);

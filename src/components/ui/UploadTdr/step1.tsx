@@ -142,7 +142,7 @@ const Step1: React.FC<Step1Props> = ({ onNext }) => {
           onClick={() => onNext(responseData)}
           className={`w-full py-2 px-4 rounded-lg text-white transition duration-300 ${
             isUploadSuccessful
-              ? 'bg-green-500 hover:bg-green-600'
+              ? 'bg-blue-500 hover:bg-blue-600'
               : 'bg-gray-300 cursor-not-allowed'
           }`}
           disabled={!isUploadSuccessful}

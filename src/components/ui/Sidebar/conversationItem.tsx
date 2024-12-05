@@ -47,8 +47,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
   // Utilizamos useMemo para que estos IDs se generen una sola vez
   const editTooltipId = `edit-tooltip-${conv.id}`;
   const deleteTooltipId = `delete-tooltip-${conv.id}`;
-
-  console.log('Active Conversation ID2 set to:', activeConversationId);
+  
   return (
     <Card
       className={classNames(

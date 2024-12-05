@@ -9,12 +9,10 @@ const SettingsButton: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpen = () => {
-    console.log('Botón de configuración clicado');
     openSettingsInfo(setIsModalOpen);
   };
 
   const handleClose = () => {
-    console.log('handleClose llamado');
     setIsModalOpen(false);
   };
 

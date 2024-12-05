@@ -15,7 +15,7 @@ interface SidebarProps {
   loadConversation: (id: string) => void;
   updateConversationName: (id: string, name: string) => void;
   deleteConversation: (id: string) => void;
-  createNewConversation: () => void;
+  createNewConversation: () => string;
   step: number;
 }
 

@@ -20,21 +20,13 @@ interface Message {
     messages: Message[];
     uploadedFiles?: { fileName: string; fileUrl: string }[];
   }
-
-  const defaultConversation: Conversation = {
-    id: uuidv4(),
-    name: `Conversación 1`,
-    messages: [],
-  };
   
-  
-
 const ChatPage: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [activeTab, setActiveTab] = useState<'chat' | 'upload'>('chat');
     const [conversations, setConversations] = useState<Conversation[]>([]);
-    const [currentConversationId, setCurrentConversationId] = useState<string | null>(defaultConversation.id);
+    const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [step, setStep] = useState(0);
     const apiURL = process.env.API_BASE_URL || 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
