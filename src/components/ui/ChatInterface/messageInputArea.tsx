@@ -22,7 +22,7 @@ const MessageInputArea: React.FC<MessageInputAreaProps> = ({
   return (
     <>
       <div className="flex space-x-2">
-        <FileUpload onFileChange={handleFileUpload} />
+        {/* <FileUpload onFileChange={handleFileUpload} /> */}
         <Input
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -33,8 +33,13 @@ const MessageInputArea: React.FC<MessageInputAreaProps> = ({
         />
         <SendButton onClick={sendMessage} disabled={isLoading} />
       </div>
-      <div className="flex items-center justify-center mt-4">
-        <p className="disclaimer">Este asistente puede cometer errores.</p>
+      <div className="flex flex-col items-center justify-center mt-4 space-y-4">
+        <p className="disclaimer text-center">
+          Aviso: Agente de codexca en pruebas, este asistente puede cometer errores.
+        </p>
+        {/*<p className="text-center">
+          ··ACTIVA STARTUPS·· AYUDAS DIRIGIDAS A IMPULSAR LA INNOVACIÓN ABIERTA EN EL MARCO DEL PLAN DE RECUPERACIÓN TRANSFORMACIÓN Y RESILENCIA
+        </p>*/}
       </div>
     </>
   );

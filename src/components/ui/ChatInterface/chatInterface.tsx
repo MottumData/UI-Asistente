@@ -7,7 +7,6 @@ import MessageList from './messageList';
 import PromptSuggestions from './promptSuggestions';
 import SettingsButton from './settingsButton';
 import MessageInputArea from './messageInputArea';
-import useChatActions from './chatActions';
 
 interface Message {
   text: string;

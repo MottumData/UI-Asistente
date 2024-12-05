@@ -44,7 +44,6 @@ const UploadedFiles: React.FC = () => {
       }
 
       const data = await response.json();
-      console.log('Datos recibidos:', data);
       setUploadedFiles(
         data.documents.map((fileName: string) => ({
           fileName,
@@ -105,7 +104,6 @@ const UploadedFiles: React.FC = () => {
   
     try {
       const requestBody = JSON.stringify({ "filename": fileName });
-      console.log('Request body:', requestBody);
 
       const response = await fetch(`${apiURL}/delete-document/?filename=${encodeURIComponent(fileName)}`, {
         method: 'DELETE',
@@ -132,9 +130,8 @@ const UploadedFiles: React.FC = () => {
       let data;
       try {
         data = await response.json();
-        console.log('Archivo eliminado:', data);
       } catch (e) {
-        console.log('Archivo eliminado sin contenido adicional en la respuesta.');
+        
       }
   
       // Remove the deleted file from the state

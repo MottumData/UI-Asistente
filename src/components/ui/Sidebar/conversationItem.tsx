@@ -47,14 +47,14 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
   // Utilizamos useMemo para que estos IDs se generen una sola vez
   const editTooltipId = `edit-tooltip-${conv.id}`;
   const deleteTooltipId = `delete-tooltip-${conv.id}`;
-
+  
   return (
     <Card
       className={classNames(
         'flex-grow w-full p-4 rounded-lg mb-4 cursor-pointer transition-all duration-200',
         {
-          'border-l-4 border-l-blue-500': activeConversationId === conv.id,
-          'bg-white border-l-2 border-l-blue-300': activeConversationId !== conv.id,
+          'border-l-4 border-l-blue-500': activeConversationId === conv.id && !isEditing,
+          'border-l-2 border-l-blue-300 bg-white': activeConversationId !== conv.id && !isEditing,
           'border-l-4 border-l-blue-400 shadow-inner': isEditing,
         }
       )}
@@ -113,7 +113,6 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
             </div>
           </div>
         </div>
-        <span className="text-xs text-gray-500 mt-1 break-all">{conv.id}</span>
       </li>
     </Card>
   );

@@ -3,8 +3,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Step1 from '../UploadTdr/step1';
+import Step2 from '../UploadTdr/step2';
 
-const UploadTdrPage = styled.div`
+interface UploadTdrPageProps {
+  step: number;
+  nextStep: () => void;
+}
+
+const UploadTdrContainer = styled.div`
   flex: 1;
   padding: 20px;
   background-color: var(--card);
@@ -14,20 +20,18 @@ const UploadTdrPage = styled.div`
   flex-direction: column; /* Asegúrate de que los hijos se apilen verticalmente */
 `;
 
-const UploadTdrInterface: React.FC = () => {
-  const [step, setStep] = useState(1);
-
-  const handleNextStep = () => {
-    setStep((prevStep) => prevStep + 1);
-  };
+const UploadTdrPage: React.FC<UploadTdrPageProps> =  ({ step, nextStep }) => {
+  const [responseData, setResponseData] = useState(null);
 
   return (
     <div className='ml-80 w-full'>
-      <UploadTdrPage>
-        {step === 1 && <Step1 onNext={handleNextStep} />}
-      </UploadTdrPage>
+      <UploadTdrContainer>
+      {step === 0 && <Step1 onNext={(data) => { setResponseData(data); nextStep(); }} />}
+      {step === 1 && responseData && <Step2 responseData={responseData} onNext={nextStep} />}
+
+      </UploadTdrContainer>
     </div>
   );
 };
 
-export default UploadTdrInterface;
+export default UploadTdrPage;
