@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Step1 from '../UploadTdr/step1';
 import Step2 from '../UploadTdr/step2';
+import Step3 from '../UploadTdr/step3';
 
 interface UploadTdrPageProps {
   step: number;
@@ -28,6 +29,7 @@ const UploadTdrPage: React.FC<UploadTdrPageProps> =  ({ step, nextStep }) => {
       <UploadTdrContainer>
       {step === 0 && <Step1 onNext={(data) => { setResponseData(data); nextStep(); }} />}
       {step === 1 && responseData && <Step2 responseData={responseData} onNext={nextStep} />}
+      {step === 2 && <Step3 responseData={responseData} setResponseData={setResponseData} onNext={nextStep} />}
 
       </UploadTdrContainer>
     </div>
