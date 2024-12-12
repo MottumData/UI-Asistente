@@ -1,11 +1,10 @@
-// uploadGuide.tsx
-import React from 'react';
+// UploadGuide.tsx
+import React, { useContext } from 'react';
 import { Card, CardContent } from '../card';
 import { Check } from 'lucide-react';
+import { StepContext } from './stepContext'; // Asegúrate de que la ruta sea correcta
 
-interface UploadGuideProps {
-  step: number;
-}
+interface UploadGuideProps {}
 
 const steps = [
   { title: 'Seleccionar archivo' },
@@ -16,7 +15,9 @@ const steps = [
   { title: 'Proceso completado'},
 ];
 
-const UploadGuide: React.FC<UploadGuideProps> = ({ step }) => {
+const UploadGuide: React.FC<UploadGuideProps> = () => {
+  const { step } = useContext(StepContext);
+
   return (
     <div className="space-y-4">
       {steps.map((s, index) => {

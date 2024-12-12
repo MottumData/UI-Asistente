@@ -9,10 +9,12 @@ interface Step3Props {
   responseData: any;
   setResponseData: any;
   onNext: () => void;
+  goToStep: (stepNumber: number) => void;
 }
 
-const Step3: React.FC<Step3Props> = ({ responseData, setResponseData, onNext }) => {
+const Step3: React.FC<Step3Props> = ({ responseData, setResponseData, onNext, goToStep }) => {
   const [isReloading, setIsReloading] = useState(false); 
+  const [showCancelModal, setShowCancelModal] = useState(false);
   const summary = responseData['complete summary']; // Texto plano dinámico
   const keyPoints = responseData['key points']; // Objeto con datos clave
   const relatedProjects = responseData['related projects']; // Array de proyectos relacionados
@@ -52,6 +54,14 @@ const Step3: React.FC<Step3Props> = ({ responseData, setResponseData, onNext }) 
     } finally {
       setIsReloading(false);
     }
+  };
+
+  const handleCancel = () => {
+    // Lógica para cancelar la propuesta
+    toast.info('Propuesta cancelada');
+    setShowCancelModal(false);
+    goToStep(0);
+    // Puedes agregar navegación o restablecimiento de estado aquí
   };
 
   return (
@@ -145,12 +155,44 @@ const Step3: React.FC<Step3Props> = ({ responseData, setResponseData, onNext }) 
           </div>
         )}
         {/* Botón para avanzar al siguiente paso */}
-        <button
-          onClick={onNext}
-          className="mt-4 w-full py-2 px-4 rounded-lg text-white bg-blue-500 hover:bg-blue-600 transition duration-300"
-        >
-          Siguiente
-        </button>
+        {/* Botones de Siguiente y Cancelar Propuesta */}
+          <div className="flex justify-between mt-4 space-x-4">
+            <button
+              onClick={() => setShowCancelModal(true)}
+              className="flex-1 py-2 px-4 rounded-lg text-white bg-red-500 hover:bg-red-600 transition duration-300"
+            >
+              Cancelar Propuesta
+            </button>
+            <button
+              onClick={onNext}
+              className="flex-1 py-2 px-4 rounded-lg text-white bg-blue-500 hover:bg-blue-600 transition duration-300"
+            >
+              Siguiente
+            </button>
+          </div>
+        {/* Modal de Confirmación */}
+        {showCancelModal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white rounded-lg p-6 w-11/12 max-w-md">
+              <h2 className="text-xl font-semibold mb-4">Confirmar Cancelación</h2>
+              <p className="mb-6">¿Está seguro de que desea cancelar la propuesta?</p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={handleCancel}
+                  className="py-2 px-4 rounded-lg text-white bg-red-500 hover:bg-red-600 transition duration-300"
+                >
+                  Sí
+                </button>
+                <button
+                  onClick={() => setShowCancelModal(false)}
+                  className="py-2 px-4 rounded-lg text-gray-700 bg-gray-200 hover:bg-gray-300 transition duration-300"
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
