@@ -55,10 +55,16 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+  
 
   return (
     <div className="flex flex-col flex-grow ml-80">
       <SettingsButton />
+      {messages.length === 0 && (
+          <p className="mt-4 text-center">
+            Soy el asistente de Codexca, ¿en qué puedo ayudarte?
+          </p>
+        )}
       <div className="flex-grow overflow-auto no-scrollbar px-8 space-y-4 p-4">
         {messages.length === 0 ? (
           <PromptSuggestions suggestions={promptSuggestions} onSelect={setInput} />

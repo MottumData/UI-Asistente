@@ -74,10 +74,6 @@ const ChatPage: React.FC = () => {
       }
     }, [messages]);
 
-    const nextStep = () => {
-      setStep((prev) => prev + 1);
-    };
-
   return (
     <div className="chat-page">
         <div className="flex h-screen">
@@ -103,7 +99,7 @@ const ChatPage: React.FC = () => {
             sendMessage={sendMessage}
             handleFileUpload={handleFileUpload}
           />
-         : <UploadTdrPage step={step} nextStep={nextStep} />}
+         : <UploadTdrPage/>}
         </div>
     </div>
   );

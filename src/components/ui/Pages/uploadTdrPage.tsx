@@ -6,11 +6,16 @@ import styled from 'styled-components';
 import Step1 from '../UploadTdr/step1';
 import Step2 from '../UploadTdr/step2';
 import Step3 from '../UploadTdr/step3';
+import Step4 from '../UploadTdr/step4';
+import Step5 from '../UploadTdr/step5';
+import SettingsButton from '../ChatInterface/settingsButton';
 import { StepContext } from '../UploadTdr/stepContext'; // Asegúrate de que la ruta sea correcta
 
 const UploadTdrContainer = styled.div`
   flex: 1;
-  padding: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
   background-color: var(--card);
   color: var(--card-foreground);
   box-sizing: border-box;
@@ -25,6 +30,7 @@ const UploadTdrPage: React.FC = () => {
   return (
     <div className='ml-80 w-full'>
       <UploadTdrContainer>
+      <SettingsButton/>
         {step === 0 && (
           <Step1 onNext={(data: any) => { setResponseData(data); nextStep(); }} />
         )}
@@ -37,6 +43,23 @@ const UploadTdrPage: React.FC = () => {
             setResponseData={setResponseData}
             onNext={nextStep}
             goToStep={goToStep}
+          />
+        )}
+        {step === 3 && (
+          <Step4
+            responseData={responseData}
+            setResponseData={setResponseData}
+            onNext={nextStep}
+            goToStep={goToStep}
+          />
+        )}
+        {step === 4 && (
+          <Step5 
+           responseData={responseData}
+           setResponseData={setResponseData}
+           onNext={nextStep} 
+           goToStep={goToStep} 
+           
           />
         )}
       </UploadTdrContainer>

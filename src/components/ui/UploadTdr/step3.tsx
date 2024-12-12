@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../ChatInterface/loadingIndicator';
+import { v4 as uuidv4 } from 'uuid';
 import {FaRegStickyNote, FaProjectDiagram, FaInfoCircle, FaRedo} from 'react-icons/fa';
 
 interface Step3Props {
@@ -14,15 +15,24 @@ interface Step3Props {
 
 const Step3: React.FC<Step3Props> = ({ responseData, setResponseData, onNext, goToStep }) => {
   const [isReloading, setIsReloading] = useState(false); 
+  const [currentQueryIndex, setCurrentQueryIndex] = useState(0);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const summary = responseData['complete summary']; // Texto plano dinámico
   const keyPoints = responseData['key points']; // Objeto con datos clave
   const relatedProjects = responseData['related projects']; // Array de proyectos relacionados
   const apiURL = 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
 
+  const queries = [
+    'complete summary',
+    'resumen',
+    'actividades_principales',
+    'objetivo',
+    'requerimientos',
+  ];
+
   const handleReload = async () => {
     const payload = {
-      query: keyPoints.resumen, // Puedes ajustar esto según sea necesario
+      query: queries[currentQueryIndex],
       num_proposals: 5,
     };
 
@@ -43,9 +53,10 @@ const Step3: React.FC<Step3Props> = ({ responseData, setResponseData, onNext, go
         // Asumiendo que la respuesta tiene una estructura similar a 'related_projects'
         setResponseData((prevData: any) => ({
           ...prevData,
-          'related projects': data['related_projects'],
+          'related projects': data,
         }));
         toast.success('Propuestas recargadas correctamente');
+        setCurrentQueryIndex((prevIndex) => (prevIndex + 1) % queries.length);
       } else {
         toast.error('Error al recargar las propuestas');
       }
@@ -64,6 +75,22 @@ const Step3: React.FC<Step3Props> = ({ responseData, setResponseData, onNext, go
     // Puedes agregar navegación o restablecimiento de estado aquí
   };
 
+  const handleNextWithId = () => {
+    // Generar un ID único para la propuesta
+    const proposalId = uuidv4();
+    console.log(`Generando proposal_id: ${proposalId}`);
+
+    // Actualizar responseData con el proposal_id
+    setResponseData((prevData: any) => ({
+      ...prevData,
+      proposal_id: proposalId,
+      // ... otras actualizaciones de datos si es necesario ...
+    }));
+
+    // Navegar al siguiente paso
+    onNext();
+  };
+
   return (
     <div className="flex flex-col">
       {/* Encabezado de la Página */}
@@ -71,7 +98,7 @@ const Step3: React.FC<Step3Props> = ({ responseData, setResponseData, onNext, go
         {/* Etiqueta de Etapa */}
         <div className="mb-2 text-center">
           <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full uppercase font-semibold tracking-wide">
-            Etapa de Propuesta
+            Etapa de Evaluación
           </span>
         </div>
         {/* Título Principal */}
@@ -83,7 +110,7 @@ const Step3: React.FC<Step3Props> = ({ responseData, setResponseData, onNext, go
       {/* Contenido Principal */}
       <div className="flex flex-col">
 
-      <div className="flex items-start bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg mb-6 text-center">
+      <div className="flex items-center bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg mb-6 text-center">
         <FaInfoCircle className="text-5xl mr-3 mt-0" />
         <p>
           En este paso se revisará la propuesta y se le presentará un resumen de esta, posteriormente, se le presentarán 5 propuestas relacionadas. Si las propuestas no están relacionadas como lo desearía, puede utilizar el botón de recarga para obtener nuevas propuestas relacionadas.
@@ -164,7 +191,7 @@ const Step3: React.FC<Step3Props> = ({ responseData, setResponseData, onNext, go
               Cancelar Propuesta
             </button>
             <button
-              onClick={onNext}
+              onClick={handleNextWithId}
               className="flex-1 py-2 px-4 rounded-lg text-white bg-blue-500 hover:bg-blue-600 transition duration-300"
             >
               Siguiente
