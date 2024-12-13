@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../tabs';
 import ConversationItem from './conversationItem';
 import useSidebarActions from './sidebarActions';
 import CreateNewConversationButton from './createConversationButton';
 import UploadGuide from '../UploadTdr/uploadGuide';
+import { StepContext } from '../UploadTdr/stepContext';
 
 interface SidebarProps {
   activeTab: 'chat' | 'upload';
@@ -15,7 +16,6 @@ interface SidebarProps {
   updateConversationName: (id: string, name: string) => void;
   deleteConversation: (id: string) => void;
   createNewConversation: () => string;
-  step: number;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ 
@@ -26,7 +26,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   updateConversationName, 
   deleteConversation, 
   createNewConversation,
-  step 
 }) => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [newName, setNewName] = useState<string>('');
@@ -35,6 +34,13 @@ const Sidebar: React.FC<SidebarProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const uploadContainerRef = useRef<HTMLDivElement>(null);
+
+  const stepContext = useContext(StepContext);
+  if (!stepContext) {
+    throw new Error('Sidebar debe estar dentro de un StepProvider');
+  }
+  const { step } = stepContext;
 
   const {
     handleEditClick,
@@ -55,7 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     chatContainerRef,
     newName,
     editingId,
-    activeConversationId, // Pasando activeConversationId al hook
+    activeConversationId,
   });
 
   useEffect(() => {
@@ -122,7 +128,10 @@ const Sidebar: React.FC<SidebarProps> = ({
             {/* Desplegable de Archivos Subidos */}
           </TabsContent>
           <TabsContent value="upload" className="p-0">
-            <div className="overflow-y-scroll h-[50vh] no-scrollbar">
+            <div 
+              className="overflow-y-scroll h-[50vh] no-scrollbar"
+              ref={uploadContainerRef}
+            >
               <UploadGuide />
             </div>
           </TabsContent>

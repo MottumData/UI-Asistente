@@ -1,5 +1,5 @@
 // UploadGuide.tsx
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import { Card, CardContent } from '../card';
 import { Check } from 'lucide-react';
 import { StepContext } from './stepContext'; // Asegúrate de que la ruta sea correcta
@@ -7,12 +7,13 @@ import { StepContext } from './stepContext'; // Asegúrate de que la ruta sea co
 interface UploadGuideProps {}
 
 const steps = [
-  { title: 'Seleccionar archivo', group: 'Etapa de evaluación' },
-  { title: 'Verificar documento', group: 'Etapa de evaluación' },
-  { title: 'Agregar metadatos', group: 'Etapa de evaluación' },
-  { title: 'Confirmar y subir', group: 'Etapa de elaboración' },
-  { title: 'Revisión final', group: 'Etapa de elaboración' },
-  { title: 'Proceso completado', group: 'Etapa de elaboración' },
+  { title: 'Términos de Referencia', group: 'Etapa de evaluación' },
+  { title: 'Análisis del Proyecto', group: 'Etapa de evaluación' },
+  { title: 'Evaluación del Proyecto', group: 'Etapa de evaluación' },
+  { title: 'Fuentes de Información', group: 'Etapa de elaboración' },
+  { title: 'Nota conceptual', group: 'Etapa de elaboración' },
+  { title: 'Estructura de la Propuesta', group: 'Etapa de elaboración' },
+  { title: 'Redacción de la Propuesta', group: 'Etapa de elaboración' },
 ];
 
 const groupClasses: { [key: string]: string } = {
@@ -41,6 +42,15 @@ const iconClasses: { [key: string]: string } = {
 const UploadGuide: React.FC<UploadGuideProps> = () => {
   const { step } = useContext(StepContext);
   const groups = Array.from(new Set(steps.map((s) => s.group)));
+
+  const currentStepRef = useRef<HTMLDivElement>(null);
+
+  // 3. Implementar el desplazamiento automático cuando el step cambie
+  useEffect(() => {
+    if (currentStepRef.current) {
+      currentStepRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [step]);
 
   return (
     <div className="space-y-4">
@@ -78,6 +88,9 @@ const UploadGuide: React.FC<UploadGuideProps> = () => {
           <Card
               key={stepIndex} // Usar stepIndex para clave única
               className={`p-4 border rounded-lg flex items-center mb-1 ${cardClass}`} // Usar cardClass
+              ref
+              ={isCurrent ? currentStepRef : null}
+              
             >
             {/* Icono del Paso */}
             <div className="flex-shrink-0">

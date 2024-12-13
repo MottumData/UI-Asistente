@@ -8,6 +8,8 @@ import Step2 from '../UploadTdr/step2';
 import Step3 from '../UploadTdr/step3';
 import Step4 from '../UploadTdr/step4';
 import Step5 from '../UploadTdr/step5';
+import Step6 from '../UploadTdr/step6';
+import Step7 from '../UploadTdr/step7';
 import SettingsButton from '../ChatInterface/settingsButton';
 import { StepContext } from '../UploadTdr/stepContext'; // Asegúrate de que la ruta sea correcta
 
@@ -60,6 +62,22 @@ const UploadTdrPage: React.FC = () => {
            onNext={nextStep} 
            goToStep={goToStep} 
            
+          />
+        )}
+        {step === 5 && (
+          <Step6 
+            responseData={responseData}
+            setResponseData={setResponseData}
+            onNext={nextStep}
+            goToStep={goToStep}
+          />
+        )}
+        {step === 6 && (
+          <Step7 
+            responseData={responseData}
+            setResponseData={setResponseData}
+            onNext={nextStep}
+            goToStep={goToStep}
           />
         )}
       </UploadTdrContainer>

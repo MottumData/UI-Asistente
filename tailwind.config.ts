@@ -15,6 +15,7 @@ const config: Config = {
         sans: ['Manrope', 'sans-serif'],
       },
       colors: {
+        'custom-bg': '#E2EDEF',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
