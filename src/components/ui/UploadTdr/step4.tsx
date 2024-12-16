@@ -34,7 +34,7 @@ const Step4: React.FC<Step4Props> = ({ responseData, setResponseData, onNext, go
     setIsSending(true);
 
     try {
-      const response = await fetch(`${apiURL}/make-concept-notes/`, {
+      const response = await fetch(`${apiURL}/make-concept-note/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -47,6 +47,30 @@ const Step5: React.FC<Step5Props> = ({ responseData, setResponseData, onNext, go
     return withSpaces.charAt(0).toUpperCase() + withSpaces.slice(1).toLowerCase();
   };
 
+  const make_index = async (proposal_id: string) => {
+    const apiURL = 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io'; // Replace with your backend URL
+  
+    try {
+      const response = await fetch(`${apiURL}/make-index/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ proposal_id }),
+      });
+  
+      if (response.ok) {
+        toast.success('El índice se ha creado correctamente');
+      } else {
+        const errorData = await response.json();
+        toast.error(`Hubó un error creando el índice: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error('Hubó un error creando el índice:', error);
+      toast.error('Hubó un error creando el índice');
+    }
+  };
+
   const handleUpdateConceptNotes = async () => {
     const apiURL = 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io'; // Replace with your backend URL
     const payload = {
@@ -56,7 +80,7 @@ const Step5: React.FC<Step5Props> = ({ responseData, setResponseData, onNext, go
     setIsSending(true);
   
     try {
-      const response = await fetch(`${apiURL}/save-concepts-notes`, {
+      const response = await fetch(`${apiURL}/save-concept-note/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,6 +95,7 @@ const Step5: React.FC<Step5Props> = ({ responseData, setResponseData, onNext, go
           ...data.data,
         }));
         toast.success('Notas conceptuales actualizadas correctamente');
+        await make_index(responseData.proposal_id); 
       } else {
         const errorData = await response.json();
         toast.error(`Error: ${errorData.message}`);
