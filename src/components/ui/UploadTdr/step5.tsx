@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaInfoCircle, FaEdit } from 'react-icons/fa';
 import TextareaAutosize from 'react-textarea-autosize';
 import { toast } from 'react-toastify';
+import LoadingIndicator from '../ChatInterface/loadingIndicator';
 
 interface Step5Props {
   responseData: any;
@@ -13,6 +14,7 @@ interface Step5Props {
 const Step5: React.FC<Step5Props> = ({ responseData, setResponseData, onNext, goToStep }) => {
   const [sections, setSections] = useState<Array<{ key: string; content: string }>>([]);
   const [isSending, setIsSending] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   useEffect(() => {
@@ -78,6 +80,7 @@ const Step5: React.FC<Step5Props> = ({ responseData, setResponseData, onNext, go
       concept_notes: responseData.concept_notes, // Sending the updated concept_notes
     };
     setIsSending(true);
+    setIsLoading(true);
   
     try {
       const response = await fetch(`${apiURL}/save-concept-note/`, {
@@ -105,6 +108,7 @@ const Step5: React.FC<Step5Props> = ({ responseData, setResponseData, onNext, go
       toast.error('Error al actualizar las notas conceptuales');
     } finally {
       setIsSending(false);
+      setIsLoading(false);
     }
   };
 
@@ -141,7 +145,8 @@ const Step5: React.FC<Step5Props> = ({ responseData, setResponseData, onNext, go
           </div>
         ))}
       </div>
-
+      
+      {isLoading && <LoadingIndicator isLoading={isLoading} />}
       <div className="flex justify-between mt-4 space-x-4">
         <button
           onClick={() => goToStep(3)}

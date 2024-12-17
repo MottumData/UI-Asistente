@@ -40,7 +40,13 @@ const iconClasses: { [key: string]: string } = {
 };
 
 const UploadGuide: React.FC<UploadGuideProps> = () => {
-  const { step } = useContext(StepContext);
+  const stepContext = useContext(StepContext);
+  
+  if (!stepContext) {
+    throw new Error('UploadGuide must be used within StepProvider');
+  }
+
+  const { step } = stepContext;
   const groups = Array.from(new Set(steps.map((s) => s.group)));
 
   const currentStepRef = useRef<HTMLDivElement>(null);
@@ -51,6 +57,8 @@ const UploadGuide: React.FC<UploadGuideProps> = () => {
       currentStepRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [step]);
+
+  console.log('Current step in UploadGuide:', step);
 
   return (
     <div className="space-y-4">

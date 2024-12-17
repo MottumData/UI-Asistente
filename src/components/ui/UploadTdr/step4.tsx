@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import LoadingIndicator from '../ChatInterface/loadingIndicator';
 
 interface Step4Props {
   responseData: any;
@@ -15,6 +16,7 @@ const Step4: React.FC<Step4Props> = ({ responseData, setResponseData, onNext, go
   const relatedProjects = responseData['related projects'];
   const [selectedProjects, setSelectedProjects] = useState<string[]>([]);
   const [isSending, setIsSending] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCheckboxChange = (filename: string) => {
     if (selectedProjects.includes(filename)) {
@@ -32,6 +34,7 @@ const Step4: React.FC<Step4Props> = ({ responseData, setResponseData, onNext, go
         information_sources: selectedProjects,
       };
     setIsSending(true);
+    setIsLoading(true);
 
     try {
       const response = await fetch(`${apiURL}/make-concept-note/`, {
@@ -56,6 +59,7 @@ const Step4: React.FC<Step4Props> = ({ responseData, setResponseData, onNext, go
       toast.error('Error al enviar los proyectos seleccionados');
     } finally {
       setIsSending(false);
+      setIsLoading(false);
     }
   };
 
@@ -105,6 +109,7 @@ const Step4: React.FC<Step4Props> = ({ responseData, setResponseData, onNext, go
           </form>
         </div>
       )}
+        {isLoading && <LoadingIndicator isLoading={isLoading} />}
         <div className="flex justify-between mt-4 space-x-4">
         <button
             onClick={goToStep.bind(null, 2)}
@@ -127,6 +132,7 @@ const Step4: React.FC<Step4Props> = ({ responseData, setResponseData, onNext, go
             {isSending ? 'Enviando...' : 'Usar estos proyectos'}
         </button>
         </div>
+
     </div>
   );
 };

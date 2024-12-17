@@ -1,29 +1,43 @@
-import React, { createContext, useState, ReactNode } from 'react';
+import React, { createContext, ReactNode } from 'react';
 
-interface StepContextProps {
+interface StepContextType {
   step: number;
   nextStep: () => void;
-  goToStep: (stepNumber: number) => void;
+  goToStep: (step: number) => void;
+  responseData: any;        // Added
+  setResponseData: (data: any) => void;  // Added
 }
 
-export const StepContext = createContext<StepContextProps>({
-  step: 0,
-  nextStep: () => {},
-  goToStep: () => {},
-});
+export const StepContext = createContext<StepContextType | null>(null);
 
 interface StepProviderProps {
   children: ReactNode;
+  initialStep: number;
+  onStepChange: (step: number) => void;
+  responseData: any;        // Added
+  setResponseData: (data: any) => void;  // Added
 }
 
-export const StepProvider: React.FC<StepProviderProps> = ({ children }) => {
-  const [step, setStep] = useState(0);
+export const StepProvider: React.FC<StepProviderProps> = ({ 
+  children, 
+  initialStep, 
+  onStepChange,
+  responseData,      // Added
+  setResponseData    // Added
+}) => {
+  const nextStep = () => onStepChange(initialStep + 1);
+  const goToStep = (step: number) => onStepChange(step);
 
-  const nextStep = () => setStep((prev) => prev + 1);
-  const goToStep = (stepNumber: number) => setStep(stepNumber);
+  const value = {
+    step: initialStep,
+    nextStep,
+    goToStep,
+    responseData,      // Added
+    setResponseData    // Added
+  };
 
   return (
-    <StepContext.Provider value={{ step, nextStep, goToStep }}>
+    <StepContext.Provider value={value}>
       {children}
     </StepContext.Provider>
   );

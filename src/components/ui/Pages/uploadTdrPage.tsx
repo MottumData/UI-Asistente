@@ -26,8 +26,19 @@ const UploadTdrContainer = styled.div`
 `;
 
 const UploadTdrPage: React.FC = () => {
-  const { step, nextStep, goToStep } = useContext(StepContext);
-  const [responseData, setResponseData] = useState<any>(null);
+  const stepContext = useContext(StepContext);
+  
+  if (!stepContext) {
+    throw new Error('UploadTdrPage must be used within StepProvider');
+  }
+
+  const { 
+    step, 
+    nextStep, 
+    goToStep,
+    responseData,
+    setResponseData 
+  } = stepContext;
 
   return (
     <div className='ml-80 w-full'>
