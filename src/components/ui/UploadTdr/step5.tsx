@@ -15,6 +15,7 @@ const Step5: React.FC<Step5Props> = ({ responseData, setResponseData, onNext, go
   const [sections, setSections] = useState<Array<{ key: string; content: string }>>([]);
   const [isSending, setIsSending] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const apiURL = 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
 
 
   useEffect(() => {
@@ -50,8 +51,6 @@ const Step5: React.FC<Step5Props> = ({ responseData, setResponseData, onNext, go
   };
 
   const make_index = async (proposal_id: string) => {
-    const apiURL = 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io'; // Replace with your backend URL
-  
     try {
       const response = await fetch(`${apiURL}/make-index/`, {
         method: 'POST',
@@ -74,7 +73,6 @@ const Step5: React.FC<Step5Props> = ({ responseData, setResponseData, onNext, go
   };
 
   const handleUpdateConceptNotes = async () => {
-    const apiURL = 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io'; // Replace with your backend URL
     const payload = {
       proposal_id: responseData.proposal_id,
       concept_notes: responseData.concept_notes, // Sending the updated concept_notes
@@ -134,16 +132,26 @@ const Step5: React.FC<Step5Props> = ({ responseData, setResponseData, onNext, go
           <FaEdit className="text-lg mr-2 text-blue-700" /> {/* Edit Icon */}
           <h3 className="text-lg font-medium text-gray-800">Editar Nota Conceptual</h3>
         </div>
-        {sections.map((section) => (
-          <div key={section.key} className="mb-6">
-            <h4 className="text-md font-semibold mb-2">{formatKey(section.key)}</h4>
-            <TextareaAutosize
-              className="w-full p-3 rounded-lg bg-gray-50 border border-blue-200 shadow-sm focus:border-blue-400 focus:ring-2 focus:ring-blue-200 transition-colors duration-200"
-              value={section.content}
-              onChange={(e) => handleContentChange(section.key, e.target.value)}
-            />
-          </div>
-        ))}
+
+        <div className="grid gap-8">
+          {sections.map((section) => (
+            <div key={section.key} className="bg-gray-50 p-6 rounded-xl border border-gray-200 transition-all duration-200 hover:shadow-md">
+              <h4 className="text-lg font-semibold mb-3 text-gray-700 flex items-center">
+                <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                {formatKey(section.key)}
+              </h4>
+              <TextareaAutosize
+                className="w-full p-4 rounded-lg bg-white border border-gray-300 
+                          focus:border-blue-500 focus:ring-2 focus:ring-blue-200 
+                          transition-all duration-200 text-gray-700 min-h-[100px]
+                          shadow-inner"
+                value={section.content}
+                onChange={(e) => handleContentChange(section.key, e.target.value)}
+                placeholder={`Ingrese el contenido para ${formatKey(section.key)}...`}
+              />
+            </div>
+          ))}
+        </div>
       </div>
       
       {isLoading && <LoadingIndicator isLoading={isLoading} />}

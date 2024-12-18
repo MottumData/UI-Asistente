@@ -227,15 +227,73 @@ const Step6: React.FC<Step6Props> = ({ responseData, setResponseData, onNext, go
 
       {isLoading && <LoadingIndicator isLoading={isLoading} />}
 
-      <div className="p-6 rounded-lg shadow-outer mb-4">
-        {renderSections(sections)}
-        <button
-          onClick={addSection}
-          className="flex items-center mt-2 text-blue-500 hover:text-blue-700"
-        >
-          <FaPlus className="mr-2" /> Añadir Sección
-        </button>
-      </div>
+      {/* Contenedor Principal de Secciones */}
+    <div className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 mb-6">
+      {sections.map((sec) => (
+        <div key={sec.id} className="mb-6 last:mb-0">
+          <div className="bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-200 
+                        p-6 transition-all duration-200 hover:shadow-md">
+            {/* Input del Título */}
+            <div className="flex items-center gap-4 mb-4">
+              <input
+                type="text"
+                value={sec.titulo}
+                onChange={(e) => handleChange(sec.id, 'titulo', e.target.value)}
+                className="flex-1 px-4 py-2 rounded-lg border border-gray-300 
+                        focus:border-blue-500 focus:ring-2 focus:ring-blue-200 
+                        transition-all duration-200 bg-white"
+                placeholder="Título de la sección"
+              />
+              <button
+                onClick={() => removeSection(sec.id)}
+                className="p-2 text-red-500 hover:text-red-700 transition-colors duration-200 
+                         hover:bg-red-50 rounded-lg"
+                title="Eliminar sección"
+              >
+                <FaTrash size={18} />
+              </button>
+            </div>
+
+            {/* Área de Contenido */}
+            <textarea
+              value={sec.contenido}
+              onChange={(e) => handleChange(sec.id, 'contenido', e.target.value)}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 
+                       focus:border-blue-500 focus:ring-2 focus:ring-blue-200 
+                       transition-all duration-200 min-h-[100px] resize-y mb-4 bg-white"
+              placeholder="Contenido de la sección"
+            />
+
+            {/* Subsecciones */}
+            {sec.subSecciones && sec.subSecciones.length > 0 && (
+              <div className="pl-6 mt-4 border-l-2 border-blue-200">
+                {renderSections(sec.subSecciones)}
+              </div>
+            )}
+
+            {/* Botón de Añadir Subsección */}
+            <button
+              onClick={() => addSubSection(sec.id)}
+              className="inline-flex items-center px-4 py-2 text-sm text-blue-600 
+                       hover:text-blue-700 bg-blue-50 hover:bg-blue-100 
+                       rounded-lg transition-all duration-200"
+            >
+              <FaPlus className="mr-2" /> Añadir Sub-Sección
+            </button>
+          </div>
+        </div>
+      ))}
+
+      {/* Botón de Añadir Sección Principal */}
+      <button
+        onClick={addSection}
+        className="mt-6 inline-flex items-center px-6 py-3 text-blue-600 
+                 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg 
+                 transition-all duration-200 font-medium w-full justify-center"
+      >
+        <FaPlus className="mr-2" /> Añadir Nueva Sección
+      </button>
+    </div>
 
       <div className="flex justify-between mt-4 space-x-4">
         <button

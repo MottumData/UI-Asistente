@@ -38,93 +38,93 @@ const Step2: React.FC<Step2Props> = ({ responseData, onNext }) => {
       </header>
 
       {/* Contenido Principal */}
-      <div className="flex flex-col">
-        <h2 className="text-2xl font-bold mb-4 text-justify">Datos Clave del Proyecto:</h2>
+      <div className="flex flex-col max-w-7xl mx-auto px-4">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-2">Datos Clave del Proyecto</h2>
 
         {keyPoints && (
-          <div className="bg-gray-50 p-6 rounded-lg shadow-inner mb-4">
-            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-12">
+          <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               
               {/* Título */}
-              <div>
-                <dt className="flex items-center text-lg font-medium text-gray-800 mb-1">
-                  <FaClipboardList className="text-blue-500 w-6 h-6 mr-2" />
+              <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
+                <dt className="flex items-center text-lg font-semibold text-gray-800 mb-3 sticky top-0 bg-gray-50 py-2 z-10">
+                  <FaClipboardList className="text-blue-500 w-5 h-5 mr-3" />
                   Título
                 </dt>
-                <dd className="text-gray-600 text-justify">{keyPoints.titulo}</dd>
+                <dd className="text-gray-700 leading-relaxed px-2">{keyPoints.titulo}</dd>
               </div>
 
               {/* Objetivo */}
-              <div>
-                <dt className="flex items-center text-lg font-medium text-gray-800 mb-1">
-                  <FaBullseye className="text-green-500 w-6 h-6 mr-2" />
+              <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
+                <dt className="flex items-center text-lg font-semibold text-gray-800 mb-3 sticky top-0 bg-gray-50 py-2 z-10">
+                  <FaBullseye className="text-green-500 w-5 h-5 mr-3" />
                   Objetivo
                 </dt>
-                <dd className="text-gray-600 prose text-justify">
+                <dd className="text-gray-700 prose leading-relaxed px-2">
                   <ReactMarkdown>{keyPoints.objetivo}</ReactMarkdown>
                 </dd>
               </div>
 
               {/* Actividades Principales */}
-              <div>
-                <dt className="flex items-center text-lg font-medium text-gray-800 mb-1">
-                  <FaTasks className="text-yellow-500 w-6 h-6 mr-2" />
+              <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
+                <dt className="flex items-center text-lg font-semibold text-gray-800 mb-3 sticky top-0 bg-gray-50 py-2 z-10">
+                  <FaTasks className="text-yellow-500 w-5 h-5 mr-3" />
                   Actividades Principales
                 </dt>
-                <dd className="text-gray-600 prose text-justify">
-                <ReactMarkdown>{formatMarkdownList(keyPoints.actividades_principales)}</ReactMarkdown>
+                <dd className="text-gray-700 prose leading-relaxed px-2">
+                  <ReactMarkdown>{formatMarkdownList(keyPoints.actividades_principales)}</ReactMarkdown>
                 </dd>
               </div>
 
               {/* Personal Requerido */}
-              <div>
-                <dt className="flex items-center text-lg font-medium text-gray-800 mb-1">
-                  <FaUsers className="text-purple-500 w-6 h-6 mr-2" />
+              <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
+                <dt className="flex items-center text-lg font-semibold text-gray-800 mb-3 sticky top-0 bg-gray-50 py-2 z-10">
+                  <FaUsers className="text-purple-500 w-5 h-5 mr-3" />
                   Personal Requerido
                 </dt>
-                <dd className="text-gray-600 prose text-justify">
+                <dd className="text-gray-700 prose leading-relaxed px-2">
                   <ReactMarkdown>{formatMarkdownList(keyPoints.personal_requerido)}</ReactMarkdown>
                 </dd>
               </div>
 
               {/* Requerimientos */}
-              <div>
-                <dt className="flex items-center text-lg font-medium text-gray-800 mb-1">
-                  <FaScroll className="text-indigo-500 w-6 h-6 mr-2" />
+              <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
+                <dt className="flex items-center text-lg font-semibold text-gray-800 mb-3 sticky top-0 bg-gray-50 py-2 z-10">
+                  <FaScroll className="text-indigo-500 w-5 h-5 mr-3" />
                   Requerimientos
                 </dt>
-                <dd className="text-gray-600 prose text-justify">
+                <dd className="text-gray-700 prose leading-relaxed px-2">
                   <ReactMarkdown>{formatMarkdownList(keyPoints.requerimientos)}</ReactMarkdown>
                 </dd>
               </div>
 
               {/* Fechas */}
-              <div>
-              <dt className="flex items-center text-lg font-medium text-gray-800 mb-1">
-                <FaCalendarAlt className="text-red-500 w-6 h-6 mr-2" />
-                Fechas
-              </dt>
-              <dd className="text-gray-600 prose text-justify">
-                <ReactMarkdown>{formatFechasList(keyPoints.fechas)}</ReactMarkdown>
-              </dd>
-            </div>
+              <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
+                <dt className="flex items-center text-lg font-semibold text-gray-800 mb-3 sticky top-0 bg-gray-50 py-2 z-10">
+                  <FaCalendarAlt className="text-red-500 w-5 h-5 mr-3" />
+                  Fechas
+                </dt>
+                <dd className="text-gray-700 prose leading-relaxed px-2">
+                  <ReactMarkdown>{formatFechasList(keyPoints.fechas)}</ReactMarkdown>
+                </dd>
+              </div>
 
               {/* Duración */}
-              <div>
-                <dt className="flex items-center text-lg font-medium text-gray-800 mb-1">
-                  <FaHourglassHalf className="text-pink-500 w-6 h-6 mr-2" />
+              <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
+                <dt className="flex items-center text-lg font-semibold text-gray-800 mb-3 sticky top-0 bg-gray-50 py-2 z-10">
+                  <FaHourglassHalf className="text-pink-500 w-5 h-5 mr-3" />
                   Duración
                 </dt>
-                <dd className="text-gray-600 text-justify">{keyPoints.duracion}</dd>
+                <dd className="text-gray-700 leading-relaxed px-2">{keyPoints.duracion}</dd>
               </div>
 
               {/* Cliente */}
-              <div>
-                <dt className="flex items-center text-lg font-medium text-gray-800 mb-1">
-                  <FaUserTie className="text-teal-500 w-6 h-6 mr-2" />
+              <div className="bg-gray-50 rounded-lg p-5 border border-gray-100">
+                <dt className="flex items-center text-lg font-semibold text-gray-800 mb-3 sticky top-0 bg-gray-50 py-2 z-10">
+                  <FaUserTie className="text-teal-500 w-5 h-5 mr-3" />
                   Cliente
                 </dt>
-                <dd className="text-gray-600 text-justify">{keyPoints.cliente}</dd>
+                <dd className="text-gray-700 leading-relaxed px-2">{keyPoints.cliente}</dd>
               </div>
               
             </dl>
