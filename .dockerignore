@@ -4,7 +4,6 @@ yarn-debug.log
 yarn-error.log
 
 # Ignore local environment files
-.env
 .env.local
 .env.development.local
 .env.test.local
