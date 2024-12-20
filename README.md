@@ -1,10 +1,8 @@
-![front_image](public/front_image.png)
-
 # UI-Asistente
 
 El proyecto “Sistema de IA Generativa para la gestión de licitaciones públicas” se enmarca dentro del programa “Activa Startups” del Plan de Recuperación, Transformación y Resiliencia, cuyo propósito es fomentar la digitalización de las pymes a través de la implementación de soluciones innovadoras basadas en tecnologías emergentes. El objetivo del programa es mejorar la competitividad de las empresas mediante la adopción de herramientas avanzadas que faciliten la automatización y optimización de procesos críticos. En este contexto, Mottum Analytica propone una solución basada en un Modelo de Lenguaje (LLM) para abordar las necesidades específicas de CODEXCA en la gestión de su patrimonio documental y operativa interna. A continuación, se describe técnicamente la lógica e implementación de la solución.
 
-
+![front_image](public/front_image.png)
 
 ## Ejecución en local :computer:
 
