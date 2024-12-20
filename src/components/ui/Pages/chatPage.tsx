@@ -5,6 +5,7 @@ import Sidebar from '../Sidebar/sideBar';
 import { v4 as uuidv4 } from 'uuid';
 import useChatActions from '../ChatInterface/chatActions';
 import UploadTdrPage from './uploadTdrPage';
+import { StepProvider } from '../UploadTdr/stepContext';
 
 interface Message {
     text: string;
@@ -28,7 +29,8 @@ const ChatPage: React.FC = () => {
     const [conversations, setConversations] = useState<Conversation[]>([]);
     const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [step, setStep] = useState(0);
+    const [uploadStep, setUploadStep] = useState(0);
+    const [responseData, setResponseData] = useState<any>(null);
     const apiURL = process.env.API_BASE_URL || 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
 
     const {
@@ -74,38 +76,42 @@ const ChatPage: React.FC = () => {
       }
     }, [messages]);
 
-    const nextStep = () => {
-      setStep((prev) => prev + 1);
-    };
-
   return (
     <div className="chat-page">
         <div className="flex h-screen">
-        <Sidebar
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            conversations={conversations}
-            loadConversation={loadConversation}
-            updateConversationName={updateConversationName}
-            deleteConversation={deleteConversation}
-            createNewConversation={createNewConversation}
-            step = {step}
-        />
-            {activeTab === 'chat' ? 
-            <ChatInterface
-            messages={messages}
-            setMessages={setMessages}
-            input={input}
-            setInput={setInput}
-            isLoading={isLoading}
-            setIsLoading={setIsLoading}
-            apiURL={apiURL}
-            sendMessage={sendMessage}
-            handleFileUpload={handleFileUpload}
+        <StepProvider 
+              initialStep={uploadStep} 
+              onStepChange={setUploadStep}
+              responseData={responseData}    // Add this line
+              setResponseData={setResponseData}  // Add this line
+          >
+          <Sidebar
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              conversations={conversations}
+              loadConversation={loadConversation}
+              updateConversationName={updateConversationName}
+              deleteConversation={deleteConversation}
+              createNewConversation={createNewConversation}
           />
-         : <UploadTdrPage step={step} nextStep={nextStep} />}
+              {activeTab === 'chat' ? 
+              <ChatInterface
+              messages={messages}
+              setMessages={setMessages}
+              input={input}
+              setInput={setInput}
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              apiURL={apiURL}
+              sendMessage={sendMessage}
+              handleFileUpload={handleFileUpload}
+            />
+            : 
+                <UploadTdrPage />
+              }
+            </StepProvider>
+          </div>
         </div>
-    </div>
   );
 };
 

@@ -81,7 +81,7 @@ const Step1: React.FC<Step1Props> = ({ onNext }) => {
         </div>
 
         {/* Contenedor Principal */}
-        <div className="items-center justify-center p-4 mb-6">
+        <div className="items-center justify-center p-4">
           <div className="w-full p-4 bg-white rounded-lg shadow-md">
             {/* Texto de Instrucción */}
             <p className="mb-4 text-center text-gray-700">
@@ -129,15 +129,12 @@ const Step1: React.FC<Step1Props> = ({ onNext }) => {
             >
               {isLoading ? 'Subiendo...' : 'Subir'}
             </button>
-
-            {/* Indicador de Carga */}
-            {isLoading && <LoadingIndicator isLoading={isLoading} />}
           </div>
         </div>
       </div>
 
       {/* Botón de Siguiente */}
-      <div className="mt-auto p-4">
+      <div className="p-4">
         <button
           onClick={() => onNext(responseData)}
           className={`w-full py-2 px-4 rounded-lg text-white transition duration-300 ${
@@ -149,6 +146,7 @@ const Step1: React.FC<Step1Props> = ({ onNext }) => {
         >
           Siguiente
         </button>
+        {isLoading && <LoadingIndicator isLoading={isLoading} />}
       </div>
     </div>
   );

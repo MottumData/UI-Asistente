@@ -17,9 +17,9 @@ interface Message {
 }
 
 const promptSuggestions = [
-  "¿Qué criterios de evaluación se mencionan en los términos de referencia?",
+  "Dame un listado de proyectos en los que trabajamos en temas de turismo",
   "¿Qué documentos debo incluir en la oferta para cumplir con los requisitos de la licitación?",
-  "¿Puedo pedir una extensión del plazo de la licitación?",
+  "Necesito un resumen de los términos de referencia del proyecto",
   "¿Cuáles son las fechas clave para la presentación de esta licitación?"
 ];
 
@@ -55,10 +55,16 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+  
 
   return (
     <div className="flex flex-col flex-grow ml-80">
       <SettingsButton />
+      {messages.length === 0 && (
+        <p className="text-center text-lg font-bold p-4 rounded-lg">
+          Chani, tu Asistente Documental basado en Inteligencia Artificial. ¿En qué te puedo ayudar?
+        </p>
+        )}
       <div className="flex-grow overflow-auto no-scrollbar px-8 space-y-4 p-4">
         {messages.length === 0 ? (
           <PromptSuggestions suggestions={promptSuggestions} onSelect={setInput} />

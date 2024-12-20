@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { forwardRef } from 'react';
 
 interface CardProps {
   children: React.ReactNode;
@@ -8,14 +9,15 @@ interface CardProps {
   hoverable?: boolean;
 }
 
-export const Card: React.FC<CardProps> = ({
+export const Card = forwardRef<HTMLDivElement, CardProps>(({
   children,
   className,
   onClick,
   hoverable = false,
-}) => {
+}, ref) => {
   return (
     <div
+      ref={ref}
       className={classNames(
         'rounded-lg shadow-md bg-white transition-transform transform',
         {
@@ -28,7 +30,7 @@ export const Card: React.FC<CardProps> = ({
       {children}
     </div>
   );
-};
+});
 
 export const CardContent: React.FC<CardProps> = ({ children, className }) => {
   return <div className={`p-4 ${className}`}>{children}</div>;
