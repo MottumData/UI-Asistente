@@ -4,6 +4,8 @@ import FileUpload from '../fileUpload';
 import Input from '../input';
 import SendButton from '../sendButton';
 
+{/* En este componente se renderiza el área de input de mensajes, donde el usuario puede escribir un mensaje y enviarlo. */}
+
 interface MessageInputAreaProps {
   input: string;
   setInput: (value: string) => void;

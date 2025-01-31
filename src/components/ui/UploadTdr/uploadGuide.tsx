@@ -1,8 +1,10 @@
-// UploadGuide.tsx
+
 import React, { useContext, useRef, useEffect } from 'react';
 import { Card, CardContent } from '../card';
 import { Check } from 'lucide-react';
-import { StepContext } from './stepContext'; // Asegúrate de que la ruta sea correcta
+import { StepContext } from './stepContext'; 
+
+{/* Guía de subida de TDR renderizada en el sidebar */}
 
 interface UploadGuideProps {}
 
@@ -51,7 +53,6 @@ const UploadGuide: React.FC<UploadGuideProps> = () => {
 
   const currentStepRef = useRef<HTMLDivElement>(null);
 
-  // 3. Implementar el desplazamiento automático cuando el step cambie
   useEffect(() => {
     if (currentStepRef.current) {
       currentStepRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });

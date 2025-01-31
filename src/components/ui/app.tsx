@@ -2,13 +2,15 @@
 
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { StepProvider } from './UploadTdr/stepContext'; // Asegúrate de que la ruta sea correcta
+import { StepProvider } from './UploadTdr/stepContext'; 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ChatPage from './Pages/chatPage';
 import '../../app/globals.css';
 import { useState, useEffect } from 'react';
 import Head from 'next/head'
+
+{/* Componente principal de la aplicación. */}
 
 const App: React.FC = () => {
   const [step, setStep] = useState(0);

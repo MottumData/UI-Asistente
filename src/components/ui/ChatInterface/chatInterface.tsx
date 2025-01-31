@@ -8,6 +8,8 @@ import PromptSuggestions from './promptSuggestions';
 import SettingsButton from './settingsButton';
 import MessageInputArea from './messageInputArea';
 
+{/* Este componente es el encargado de mostrar la interfaz del chat.*/}
+
 interface Message {
   text: string;
   sender: 'user' | 'bot';

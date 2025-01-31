@@ -6,6 +6,8 @@ import LoadingIndicator from '../ChatInterface/loadingIndicator';
 import { v4 as uuidv4 } from 'uuid';
 import {FaRegStickyNote, FaProjectDiagram, FaInfoCircle, FaRedo} from 'react-icons/fa';
 
+{/* Paso 3 del proceso de subida de TDR. */}
+
 interface Step3Props {
   responseData: any;
   setResponseData: any;
@@ -20,7 +22,8 @@ const Step3: React.FC<Step3Props> = ({ responseData, setResponseData, onNext, go
   const summary = responseData['complete summary']; // Texto plano dinámico
   const keyPoints = responseData['key points']; // Objeto con datos clave
   const relatedProjects = responseData['related projects']; // Array de proyectos relacionados
-  const apiURL = 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
+  const apiURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
 
   const queries = [
     'complete summary',

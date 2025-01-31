@@ -1,5 +1,7 @@
 import React, { createContext, ReactNode } from 'react';
 
+{/* En este componente se define el contexto para cada paso del proceso de subida de TDR. */}
+
 interface StepContextType {
   step: number;
   nextStep: () => void;

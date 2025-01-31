@@ -1,4 +1,3 @@
-// UploadTdrPage.tsx
 "use client";
 
 import React, { useContext, useState } from 'react';
@@ -11,7 +10,9 @@ import Step5 from '../UploadTdr/step5';
 import Step6 from '../UploadTdr/step6';
 import Step7 from '../UploadTdr/step7';
 import SettingsButton from '../ChatInterface/settingsButton';
-import { StepContext } from '../UploadTdr/stepContext'; // Asegúrate de que la ruta sea correcta
+import { StepContext } from '../UploadTdr/stepContext'; 
+
+{/* Esta página contiene los componentes de los pasos del formulario de carga de TDR. */}
 
 const UploadTdrContainer = styled.div`
   flex: 1;

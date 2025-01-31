@@ -2,6 +2,8 @@
 import React from 'react';
 import Message from '../ChatInterface/message';
 
+{/* En este componente se renderiza la lista de mensajes, donde se muestran los mensajes enviados por el usuario y el bot. */}
+
 interface Message {
   text: string;
   sender: 'user' | 'bot';

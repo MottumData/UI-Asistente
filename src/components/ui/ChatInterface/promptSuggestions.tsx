@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card, CardContent } from '../card';
 
+{/* En este componente se renderiza la lista de sugerencias que se muestran al usuario en el chat. */}
+
 interface PromptSuggestionsProps {
   suggestions: string[];
   onSelect: (suggestion: string) => void;

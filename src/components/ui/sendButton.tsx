@@ -2,6 +2,8 @@
 import React from 'react';
 import { SendHorizonal } from 'lucide-react';
 
+{/* Botón de envío de mensaje. */}
+
 interface SendButtonProps {
   onClick: () => void;
   disabled: boolean;

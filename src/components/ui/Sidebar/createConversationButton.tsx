@@ -1,6 +1,8 @@
 import React from 'react';
 import { Plus } from 'lucide-react';
 
+{/* En este componente se renderiza el botón para crear un nuevo chat. */}
+
 interface CreateNewConversationButtonProps {
   handleCreateNewConversation: () => void;
 }

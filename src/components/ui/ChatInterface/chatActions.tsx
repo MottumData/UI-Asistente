@@ -1,6 +1,9 @@
-// File: useChatActions.ts
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
+
+{/* En este script se encuentran las funcionalidades principales del chat. 
+  Sus nombres son autodescriptivos: sendMessage, loadConversation, updateConversationName,
+  createNewConversation, deleteConversation, handleFileUpload, openSettingsInfo */}
 
 interface Message {
   text: string;

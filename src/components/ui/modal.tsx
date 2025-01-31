@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { X } from 'lucide-react';
 
+{/* Componente de modal informativo de los settings. */}
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;

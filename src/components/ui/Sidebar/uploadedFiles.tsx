@@ -1,7 +1,9 @@
 // UploadedFiles.tsx
 import React, { useState, useEffect } from 'react';
-import { FileText, FileJson2, Sheet, FileType2, Trash } from 'lucide-react'; // Replace with actual icon library
+import { FileText, FileJson2, Sheet, FileType2, Trash } from 'lucide-react'; 
 import { toast } from 'react-toastify';
+
+{/* En este componente se renderiza la lista de archivos subidos por el usuario. */}
 
 interface UploadedFile {
   fileName: string;
@@ -9,7 +11,8 @@ interface UploadedFile {
   fileType: string;
 }
 
-const apiURL = process.env.API_BASE_URL || 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io'; // Replace with actual API URL
+const apiURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
 
 const UploadedFiles: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

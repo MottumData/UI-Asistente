@@ -2,6 +2,8 @@ import React from 'react';
 import { FaClipboardList, FaBullseye, FaTasks, FaUsers, FaScroll, FaCalendarAlt, FaHourglassHalf, FaUserTie } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
 
+{/* Paso 2 del proceso de subida de TDR. */}
+
 interface Step2Props {
     responseData: any;
     onNext: () => void;
