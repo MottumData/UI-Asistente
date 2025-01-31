@@ -3,6 +3,8 @@ import React from 'react';
 import { Paperclip } from 'lucide-react';
 import { Tooltip } from 'react-tooltip';
 
+{/* Componente para subida de archivos. */}
+
 interface FileUploadProps {
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

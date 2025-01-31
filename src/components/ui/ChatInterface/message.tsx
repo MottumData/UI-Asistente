@@ -1,7 +1,8 @@
-// File: Message.tsx
 import React from 'react';
 import { User, Monitor, File } from 'lucide-react';
 import Markdown from 'react-markdown';
+
+{/* En este componente se renderiza el mensaje del usuario o del bot, dependiendo de quien lo haya enviado. */}
 
 interface MessageProps {
   msg: {

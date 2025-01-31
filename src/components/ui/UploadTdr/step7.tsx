@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import LoadingIndicator from '../ChatInterface/loadingIndicator';
 import ReactMarkdown from 'react-markdown';
 
+{/* Paso 7 del proceso de subida de TDR. */}
+
 interface Step7Props {
   responseData: any;
   setResponseData: any;
@@ -15,7 +17,7 @@ const Step7: React.FC<Step7Props> = ({ responseData, setResponseData, onNext, go
   const [isSending, setIsSending] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [proposalContent, setProposalContent] = useState<any>(null);
-  const apiURL = process.env.API_BASE_URL || 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
+  const apiURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
   const makeProposal = async () => {
     setIsLoading(true);

@@ -1,5 +1,5 @@
 import React from 'react';
-import App from '../components/ui/app';  // Importing App from components directory
+import App from '../components/ui/app';
 
 const HomePage: React.FC = () => {
   return <App />;

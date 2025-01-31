@@ -3,6 +3,8 @@ import { toast } from 'react-toastify';
 import LoadingIndicator from '../ChatInterface/loadingIndicator';
 import { AlertTriangle } from 'lucide-react';
 
+{/* Paso 1 del proceso de subida de TDR. */}
+
 interface Step1Props {
   onNext: (responseData: any) => void;
 }
@@ -12,7 +14,8 @@ const Step1: React.FC<Step1Props> = ({ onNext }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUploadSuccessful, setIsUploadSuccessful] = useState(false);
   const [responseData, setResponseData] = useState(null);
-  const apiURL = 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
+  const apiURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
   
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {

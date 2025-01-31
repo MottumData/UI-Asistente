@@ -2,6 +2,8 @@
 import React from 'react';
 import { File } from 'lucide-react';
 
+{/* En este componente se renderiza la lista de archivos subidos por el usuario. */}
+
 interface UploadedFile {
   fileName: string;
   fileUrl: string;

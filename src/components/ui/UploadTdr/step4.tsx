@@ -3,6 +3,8 @@ import { FaInfoCircle } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../ChatInterface/loadingIndicator';
 
+{/* Paso 4 del proceso de subida de TDR. */}
+
 interface Step4Props {
   responseData: any;
   setResponseData: any;
@@ -27,7 +29,7 @@ const Step4: React.FC<Step4Props> = ({ responseData, setResponseData, onNext, go
   };
 
   const handleUseProjects = async () => {
-    const apiURL = 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io'; // Reemplaza con tu URL real
+    const apiURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
     const payload = {
         proposal_id: proposal_id, // Incluir el proposal_id
         tdr_summary: tdr_summary, // Asegúrate de que este campo esté disponible en responseData

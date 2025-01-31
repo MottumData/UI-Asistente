@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
 import { Edit, Trash } from 'lucide-react';
 import { Tooltip } from 'react-tooltip';
-import { Card } from '../card'; // Asegúrate de que el componente Card está correctamente importado
+import { Card } from '../card'; 
 import classNames from 'classnames';
+
+{/* En este componente se renderiza un item de la lista de conversaciones. */}
 
 interface Conversation {
   id: string;

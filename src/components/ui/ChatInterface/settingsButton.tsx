@@ -5,6 +5,8 @@ import { Tooltip } from 'react-tooltip';
 import Modal from '../modal';
 import { openSettingsInfo } from './chatActions';
 
+{/* En este componente se renderiza el botón de configuración, que al hacer click muestra un modal con información sobre el proyecto. */}
+
 const SettingsButton: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 

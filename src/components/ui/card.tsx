@@ -2,6 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 import { forwardRef } from 'react';
 
+{/* Componente de tarjeta. */}
+
 interface CardProps {
   children: React.ReactNode;
   className?: string;

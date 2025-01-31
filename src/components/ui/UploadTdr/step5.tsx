@@ -4,6 +4,8 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../ChatInterface/loadingIndicator';
 
+{/* Paso 5 del proceso de subida de TDR. */}
+
 interface Step5Props {
   responseData: any;
   setResponseData: any;
@@ -15,7 +17,8 @@ const Step5: React.FC<Step5Props> = ({ responseData, setResponseData, onNext, go
   const [sections, setSections] = useState<Array<{ key: string; content: string }>>([]);
   const [isSending, setIsSending] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const apiURL = 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
+  const apiURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
 
 
   useEffect(() => {

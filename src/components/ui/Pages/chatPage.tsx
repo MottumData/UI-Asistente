@@ -1,11 +1,10 @@
-// ChatPage.tsx
 import React, { useState, useEffect} from 'react';
 import ChatInterface from '../ChatInterface/chatInterface';
 import Sidebar from '../Sidebar/sideBar';
-import { v4 as uuidv4 } from 'uuid';
 import useChatActions from '../ChatInterface/chatActions';
 import UploadTdrPage from './uploadTdrPage';
 import { StepProvider } from '../UploadTdr/stepContext';
+
 
 interface Message {
     text: string;
@@ -31,7 +30,9 @@ const ChatPage: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [uploadStep, setUploadStep] = useState(0);
     const [responseData, setResponseData] = useState<any>(null);
-    const apiURL = process.env.API_BASE_URL || 'https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io';
+    const apiURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
+    console.log('apiURL', process.env.NEXT_PUBLIC_API_URL);
 
     const {
       loadConversation,

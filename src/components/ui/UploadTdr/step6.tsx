@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import LoadingIndicator from '../ChatInterface/loadingIndicator';
 import { v4 as uuidv4 } from 'uuid';
 
+{/* Paso 6 del proceso de subida de TDR. */}
+
 interface Step6Props {
   responseData: any;
   setResponseData: any;
@@ -22,12 +24,13 @@ const Step6: React.FC<Step6Props> = ({ responseData, setResponseData, onNext, go
   const [isSending, setIsSending] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [sections, setSections] = useState<Section[]>([]);
+  const apiURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
   useEffect(() => {
     const fetchMakeIndex = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io/make-index/`, {
+        const response = await fetch(`${apiURL}/make-index`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ proposal_id: responseData.proposal_id }),
@@ -174,7 +177,7 @@ const Step6: React.FC<Step6Props> = ({ responseData, setResponseData, onNext, go
         proposal_id: responseData.proposal_id,
         index: transformSectionsToData(sections),
       };
-      const response = await fetch(`https://api-codexca-h.agreeablesand-549b6711.eastus.azurecontainerapps.io/save-index/`, {
+      const response = await fetch(`${apiURL}/save-index/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

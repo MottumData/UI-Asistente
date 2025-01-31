@@ -8,6 +8,8 @@ import CreateNewConversationButton from './createConversationButton';
 import UploadGuide from '../UploadTdr/uploadGuide';
 import { StepContext } from '../UploadTdr/stepContext';
 
+{/* En este componente se renderiza la barra lateral de la interfaz de chat, donde se muestran los chats activos y se pueden crear nuevos chats. */}
+
 interface SidebarProps {
   activeTab: 'chat' | 'upload';
   setActiveTab: (tab: 'chat' | 'upload') => void;
@@ -124,8 +126,6 @@ const Sidebar: React.FC<SidebarProps> = ({
                 ))}
               </ul>
             </div>
-            {/*<UploadedFiles/>*/}
-            {/* Desplegable de Archivos Subidos */}
           </TabsContent>
           <TabsContent value="upload" className="p-0">
             <div 

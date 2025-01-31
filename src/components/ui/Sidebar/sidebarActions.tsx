@@ -1,6 +1,8 @@
 // File: useSidebarActions.ts
 import { toast } from 'react-toastify';
 
+{/* En este componente contiene las acciones que se pueden realizar en la barra lateral. */}
+
 interface UseSidebarActionsProps {
   setEditingId: React.Dispatch<React.SetStateAction<string | null>>;
   setNewName: React.Dispatch<React.SetStateAction<string>>;

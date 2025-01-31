@@ -4,6 +4,28 @@ El proyecto “Sistema de IA Generativa para la gestión de licitaciones públic
 
 ![front_image](public/front_image.png)
 
+## Estructura del repositorio:
+
+- `public/`: Archivos estáticos públicos, como imágenes y datos CSV.
+- `src/`: Código fuente de la aplicación.
+  - `components/`: Componentes React utilizados en la aplicación.
+    - `ChatInterface/`: Esta carpeta contiene los componentes que se usan en la página de chatInterface.tsx 
+    - `Pages/`: Contiene las dos páginas de la aplicación; chatPage.tsx y uploadTdrPage.tsx
+    - `Sidebar/`: Contiene los componentes que se utilizan en el sidebar y el sidebar.tsx que es uno de los componentes principales. 
+    - `UploadTdr/`:  Funciones y componentes para la creación y manejo de TDR.
+    - `Pages/`: En esta carpeta se encuentran mapView.tsx, la única página de la aplicación y el punto de entrada -> _app.tsx
+- `lib/`: Archivo de utils para tailwind.
+
+## Guía de Uso
+
+Lo primero a tener en cuenta es la variable de entorno para usar la url de el container en el que este desplegada la solución. Para ello, se debe crear un
+archivo
+`.env` en la raíz del proyecto con la siguiente estructura:
+
+```shell
+NEXT_PUBLIC_API_URL=sk-XXXXXXXXXXXXXXXXXXXXXXXX # Sustituir por la API key de OpenAI
+```
+
 ## Ejecución en local :computer:
 
 ### Prerrequisitos

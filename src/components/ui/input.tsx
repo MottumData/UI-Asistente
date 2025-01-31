@@ -1,6 +1,8 @@
 // File: Input.tsx
 import React, { InputHTMLAttributes } from 'react';
 
+{/* Componente de input del chat. */}
+
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   onSubmit?: () => void; // New prop for handling Enter key
